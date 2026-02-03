@@ -1,0 +1,2 @@
+本策略为dwaq框架 不带gait command（除原normal ppo应该都不会带了) 5历史  平地行走
+尚未经实机验证
