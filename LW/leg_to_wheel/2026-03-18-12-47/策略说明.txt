@@ -1,4 +1,4 @@
 crocoddyl
 无历史
-sim2sim成功
+sim2sim成功  力矩超限
 未经实物验证
