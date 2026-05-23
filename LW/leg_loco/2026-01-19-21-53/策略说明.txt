@@ -1,2 +1,0 @@
-本策略为原normal ppo 框架 带gait command观测 10历史 平地行走
-已经实机验证可行
