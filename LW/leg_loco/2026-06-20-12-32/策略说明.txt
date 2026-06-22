@@ -1,0 +1,6 @@
+dwaq
+0.3
+0.125 air_time
+5.0 biped_reward
+
+
