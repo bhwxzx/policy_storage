@@ -1,4 +1,4 @@
-roa amp-dwaq
+rough roa
 -0.075 +0.075
 
 
