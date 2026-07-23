@@ -1,0 +1,5 @@
+rough amp-roa
+-0.075 +0.075
+3.0
+young
+
