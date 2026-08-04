@@ -9,8 +9,8 @@ Runner: OnPolicyRunnerAmpROA
 Checkpoint SHA-256: 63297f55d4ae038f7394aa24ddc1da949d192fd4356b06f6a15ce70f9da4fb87
 训练源码 commit: 7e3f7188486dc863c5a6f13ebd5bb6f46f3a1cc8
 训练源码 dirty: true
-JIT SHA-256: 5209342e8fd83d24d8341383e5768a95523efa81a95ece78450b9819c2ea01d7
-ONNX SHA-256: 5b9601481299aae82ecb9f444b64864be504d58cbffc669d1afe4abb3fdea692
+JIT SHA-256: 06ce89c392c1e52628e875ba51813d75b02e5f4922cf29c5aabe8404b14f9a34
+ONNX SHA-256: 4463d5df797ea495ed56960704fec911e1d9045268f03fd113484656ed8906b9
 
 训练参数:
 {
@@ -19,6 +19,23 @@ ONNX SHA-256: 5b9601481299aae82ecb9f444b64864be504d58cbffc669d1afe4abb3fdea692
     "evaluation_id": "advisor-eval-003",
     "num_envs": 1,
     "seed": 42
+  },
+  "onnx_export": {
+    "batch_contract": "static_batch_1",
+    "input_shape": [
+      1,
+      410
+    ],
+    "opset_version": 17,
+    "output_shape": [
+      1,
+      10
+    ],
+    "post_simplify_node_count": 22,
+    "pre_simplify_node_count": 28,
+    "profile": "static_batch_1_simplified",
+    "simplified": true,
+    "simplifier_check": true
   },
   "run_id": "2026-08-01_16-31-56",
   "seed": 42,
@@ -43,6 +60,6 @@ ONNX SHA-256: 5b9601481299aae82ecb9f444b64864be504d58cbffc669d1afe4abb3fdea692
 - /home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/play/advisor-eval-003/result.json
 
 人工说明:
-用户选择 model_100000 并明确接受当前已知缺陷。Native 闭环评估 advisor-eval-003 已完成，遥测完整且含视频。已知缺陷：最大关节速度利用率为 1.2191176414489746，关节速度超限率为 0.0004；该策略按 plateaued_with_defects 处理。JIT/ONNX 仅通过有界开环动作一致性验证，不构成部署或实物就绪资格。
+用户选择 model_100000 并明确接受当前已知缺陷。本次重新导出的 ONNX 使用 static_batch_1_simplified 合约：固定 batch=1、opset 17、输入 obs[1,410]、输出 actions[1,10]，onnxsim 校验通过，节点数由 28 降至 22。Native 闭环评估 advisor-eval-003 已完成，遥测完整且含视频。已知缺陷：最大关节速度利用率为 1.2191176414489746，关节速度超限率为 0.0004；该策略按 plateaued_with_defects 处理。JIT/ONNX 仅通过有界开环动作一致性验证，不构成部署或实物就绪资格。
 
 仅可进入受监督实物测试；未经实物验证，不代表 hardware-ready。

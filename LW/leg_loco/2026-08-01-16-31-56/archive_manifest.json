@@ -4,16 +4,16 @@
   "archive_path": "/home/young/liufengrong/policy_storage/LW/leg_loco/2026-08-01-16-31-56",
   "artifacts": {
     "jit": {
-      "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/export/advisor-export-001/policy.pt",
-      "sha256": "5209342e8fd83d24d8341383e5768a95523efa81a95ece78450b9819c2ea01d7"
+      "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/export/advisor-export-static-002/policy.pt",
+      "sha256": "06ce89c392c1e52628e875ba51813d75b02e5f4922cf29c5aabe8404b14f9a34"
     },
     "onnx": {
-      "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/export/advisor-export-001/policy.onnx",
-      "sha256": "5b9601481299aae82ecb9f444b64864be504d58cbffc669d1afe4abb3fdea692"
+      "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/export/advisor-export-static-002/policy.onnx",
+      "sha256": "4463d5df797ea495ed56960704fec911e1d9045268f03fd113484656ed8906b9"
     }
   },
   "collection": "LW/leg_loco",
-  "description_notes": "用户选择 model_100000 并明确接受当前已知缺陷。Native 闭环评估 advisor-eval-003 已完成，遥测完整且含视频。已知缺陷：最大关节速度利用率为 1.2191176414489746，关节速度超限率为 0.0004；该策略按 plateaued_with_defects 处理。JIT/ONNX 仅通过有界开环动作一致性验证，不构成部署或实物就绪资格。",
+  "description_notes": "用户选择 model_100000 并明确接受当前已知缺陷。本次重新导出的 ONNX 使用 static_batch_1_simplified 合约：固定 batch=1、opset 17、输入 obs[1,410]、输出 actions[1,10]，onnxsim 校验通过，节点数由 28 降至 22。Native 闭环评估 advisor-eval-003 已完成，遥测完整且含视频。已知缺陷：最大关节速度利用率为 1.2191176414489746，关节速度超限率为 0.0004；该策略按 plateaued_with_defects 处理。JIT/ONNX 仅通过有界开环动作一致性验证，不构成部署或实物就绪资格。",
   "evaluation": {
     "results": [
       {
@@ -23,8 +23,8 @@
     ]
   },
   "export_receipt": {
-    "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/export/advisor-export-001/receipt.json",
-    "sha256": "6af38c15ae5440d6e3a25bc42c2ea48b8678749024c92e507eef7649bcff9d6a"
+    "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/export/advisor-export-static-002/receipt.json",
+    "sha256": "037a6a21a626d2f9686e9f9a40e06d8a630b1cfb25193dff4bd295a686f6ccac"
   },
   "hardware_boundary": "仅可进入受监督实物测试；未经实物验证，不代表 hardware-ready。",
   "hardware_ready": false,
@@ -34,6 +34,23 @@
       "evaluation_id": "advisor-eval-003",
       "num_envs": 1,
       "seed": 42
+    },
+    "onnx_export": {
+      "batch_contract": "static_batch_1",
+      "input_shape": [
+        1,
+        410
+      ],
+      "opset_version": 17,
+      "output_shape": [
+        1,
+        10
+      ],
+      "post_simplify_node_count": 22,
+      "pre_simplify_node_count": 28,
+      "profile": "static_batch_1_simplified",
+      "simplified": true,
+      "simplifier_check": true
     },
     "run_id": "2026-08-01_16-31-56",
     "seed": 42,
@@ -53,6 +70,16 @@
       "num_steps_per_env": 24
     }
   },
+  "replace_existing": {
+    "authorized": true,
+    "files": {
+      "archive_manifest.json": "34f63e611df234fe9644f7f5d64caed6e24f2fe59a867f9c38e02ebc611d9b62",
+      "policy.onnx": "5b9601481299aae82ecb9f444b64864be504d58cbffc669d1afe4abb3fdea692",
+      "policy.pt": "5209342e8fd83d24d8341383e5768a95523efa81a95ece78450b9819c2ea01d7",
+      "策略说明.txt": "43c9702bdbc5d3a5354312e6580ba30fe958d54866beaf5391d71a75e5e5c466"
+    },
+    "path": "/home/young/liufengrong/policy_storage/LW/leg_loco/2026-08-01-16-31-56"
+  },
   "runner": "OnPolicyRunnerAmpROA",
   "selected_checkpoint": {
     "iteration": 100000,
@@ -68,7 +95,7 @@
   "validated_export": {
     "export": {
       "checkpoint_id": "model_100000",
-      "export_id": "advisor-export-001",
+      "export_id": "advisor-export-static-002",
       "run_id": "2026-08-01_16-31-56",
       "runner": "OnPolicyRunnerAmpROA",
       "task": "RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0"
@@ -82,15 +109,25 @@
         "size_bytes": 15130649
       },
       "checkpoint_selection": {
-        "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/checkpoint_selection/selection-advisor-selection-001.json",
-        "selection_id": "advisor-selection-001",
-        "sha256": "d2a12b00c43df297726d9374d01b57ed4d0fb7b5edbdd02520bd473503633c47"
+        "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/checkpoint_selection/selection-advisor-selection-static-002.json",
+        "selection_id": "advisor-selection-static-002",
+        "sha256": "24bd7212559d1114aa42fb5310812c19d3f31eb56f9516f9097f22038024df73"
       },
       "effective_config": {
         "effective_config_fingerprint": "fa7e5b0a4b81d328c47458425818e346b0551694e3be419dd1619445c344029f",
         "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/source/effective-config-advisor-eval-003-runtime.json",
         "reward_fingerprint": "66d57946ec3118a2c6ec4655f5f4c3a8ec004c413b6b8db30a537c1b8df4ffd2",
         "sha256": "a66f4771b8b2682ccd44a8d8ea8607acd5779be77d6f675e790ad9cb999a9ba2"
+      },
+      "onnx_export_contract": {
+        "batch_contract": "static_batch_1",
+        "input_dtype": "float32",
+        "input_name": "obs",
+        "opset_version": 17,
+        "output_dtype": "float32",
+        "output_name": "actions",
+        "profile": "static_batch_1_simplified",
+        "simplified": true
       },
       "parity_contract": {
         "max_abs_action_error": 1e-05,
@@ -246,16 +283,39 @@
         "reset_contract": "environment_history_reset"
       }
     },
+    "onnx_export": {
+      "contract": {
+        "batch_contract": "static_batch_1",
+        "input_dtype": "float32",
+        "input_name": "obs",
+        "opset_version": 17,
+        "output_dtype": "float32",
+        "output_name": "actions",
+        "profile": "static_batch_1_simplified",
+        "simplified": true
+      },
+      "input_shape": [
+        1,
+        410
+      ],
+      "output_shape": [
+        1,
+        10
+      ],
+      "post_simplify_node_count": 22,
+      "pre_simplify_node_count": 28,
+      "simplifier_check": true
+    },
     "outputs": {
       "jit": {
-        "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/export/advisor-export-001/policy.pt",
-        "sha256": "5209342e8fd83d24d8341383e5768a95523efa81a95ece78450b9819c2ea01d7",
+        "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/export/advisor-export-static-002/policy.pt",
+        "sha256": "06ce89c392c1e52628e875ba51813d75b02e5f4922cf29c5aabe8404b14f9a34",
         "size_bytes": 852878
       },
       "onnx": {
-        "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/export/advisor-export-001/policy.onnx",
-        "sha256": "5b9601481299aae82ecb9f444b64864be504d58cbffc669d1afe4abb3fdea692",
-        "size_bytes": 821288
+        "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/export/advisor-export-static-002/policy.onnx",
+        "sha256": "4463d5df797ea495ed56960704fec911e1d9045268f03fd113484656ed8906b9",
+        "size_bytes": 820880
       }
     },
     "parity": {
@@ -348,9 +408,9 @@
       },
       "sample_count": 8
     },
-    "receipt_path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/export/advisor-export-001/receipt.json",
+    "receipt_path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Rough-LW-leg-Amp-Roa-v0/2026-08-01_16-31-56/evidence/export/advisor-export-static-002/receipt.json",
     "status": "completed",
-    "version": 3
+    "version": 4
   },
   "version": 2
 }
