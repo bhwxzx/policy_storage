@@ -1,0 +1,444 @@
+{
+  "algorithm": "DWAQPPO",
+  "archive_authorized": true,
+  "archive_path": "/home/server/liufengrong/policy_storage/LW/wheel_loco/2026-09-12-22-05-27",
+  "artifacts": {
+    "jit": {
+      "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0/2026-09-12_22-05-27/evidence/export/user-latest-20260914-001/policy.pt",
+      "sha256": "31c5fb5056f37cd238cf69aaab94fa4dc9062d54f654c74bed27e7ff0764f251"
+    },
+    "onnx": {
+      "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0/2026-09-12_22-05-27/evidence/export/user-latest-20260914-001/policy.onnx",
+      "sha256": "1c08aa136ffd2039e1f21ddb435ec0fd411c726c18fa9462490fce25fc417ef1"
+    }
+  },
+  "collection": "LW/wheel_loco",
+  "description_notes": "用户要求将最新已评估的 Flat wheel DWAQ 策略导出、归档并提交推送。训练时间2026-09-12_22-05-27，model_49999.pt；归档目录LW/wheel_loco/2026-09-12-22-05-27，使用训练时间而非导出时间。选择依据为用户指定最新策略，未证明跨检查点最优；没有经批准的收敛判据。\n训练参数：线速度跟踪权重4、std=0.5，角速度跟踪权重3、std=0.5，stop_motion=-5，action_rate_l2=-0.2，action_smoothness=-0.075。standing比例0.10；重置时执行器Kp/Kd独立均匀缩放0.8–1.2；执行器延迟0–3物理步，物理步长0.005秒。完整参数见有效配置引用。\nIsaac评估seed42：三个运动场景各4环境×42秒，无推扰/当前推扰/旧版推扰的xy速度RMSE分别为0.15456/0.19993/0.23026m/s，均无终止和关节速度、力矩越限。无推扰环境0的1m/s指令段去除首秒后平均vx为0.91938m/s，较前一策略0.98922m/s下降；跨策略运动测试域随机化不同，不能作为单因素因果比较。\n纯平面零速度站立：各1环境×120秒、seed42；固定质量、质心、位姿、初始零速度、摩擦系数1；无推扰、无延迟、禁用增益随机化。40–120秒无观测噪声净位移2.23213m，拟合漂移速度2.869cm/s，较旧策略0.24mm明显退化；启用训练观测噪声净位移1.01179m，拟合漂移速度1.282cm/s，较旧策略3.72193m改善但仍持续漂移。不能总结为站立整体改善。五项测试均完成且无终止，仍需多seed验证。\n部署接口：ONNX static_batch_1_simplified、opset17、float32 obs[1,195]→actions[1,10]。输入5帧×39维，按时间从旧到新展平，最新帧在末尾；环境重置需同步重置历史。actor输入顺序[encoded_velocity,encoded_latent,current_obs]，combined_actor_input归一化契约，本训练观测归一化关闭；观测顺序、缩放、轮关节位置屏蔽与关节顺序须匹配训练。\n8个真实环境观测样本覆盖initial/pre_reset/post_reset/final：JIT最大动作误差0，ONNX最大误差9.5367431640625e-7，均低于1e-5；GPU到CPU误差4.0531158447265625e-6。仅为有界开环一致性验证，尚无该新策略MuJoCo闭环或实物验证。source字段是评估身份记录的源代码状态；训练元数据HEAD为2af36488f956fe014768f4a770a5dff9748fb934，评估身份HEAD为d65db4a524f267177fee1710810bc7005ccdfdca，两者间仅证据文档提交，相关配置修改匹配训练时diff。\n仅可进入受监督实物测试；未经实物验证，不代表 hardware-ready。",
+  "evaluation": {
+    "results": [
+      {
+        "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0/2026-09-12_22-05-27/evaluations/native-assess-20260914-001/raw/baseline-no-push-a01/result.json",
+        "sha256": "0e2cc7abfc8536964abe492e170fa8238518ddd33a9742d678ab56119461272e"
+      },
+      {
+        "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0/2026-09-12_22-05-27/evaluations/native-assess-20260914-001/raw/current-push-a01/result.json",
+        "sha256": "f227b6e6696d2aaa17d5b27cadea2a845e6c8afb8f9ab0e35fb5cc7a23d2db6f"
+      },
+      {
+        "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0/2026-09-12_22-05-27/evaluations/native-assess-20260914-001/raw/legacy-push-a01/result.json",
+        "sha256": "79dd243238ab398f89cd3f75c508f0768f907ac3ebfe210b50e511d4445cbaf9"
+      },
+      {
+        "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0/2026-09-12_22-05-27/evaluations/zero-standing-plane-20260914-001/raw/nominal-no-noise-a01/result.json",
+        "sha256": "c7438f660d209e892d8969a4a628c687b9ba643bd434c7345926c0e37130884a"
+      },
+      {
+        "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0/2026-09-12_22-05-27/evaluations/zero-standing-plane-20260914-001/raw/nominal-training-noise-a01/result.json",
+        "sha256": "a836288ed27962912924946c6d0acc5d9354074e296a5fdeb65176be79064531"
+      }
+    ]
+  },
+  "export_receipt": {
+    "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0/2026-09-12_22-05-27/evidence/export/user-latest-20260914-001/receipt.json",
+    "sha256": "581ef080e86f925e906b40ffe91c5c6b981feaf367ecb255f7fa9f38c11c7430"
+  },
+  "hardware_boundary": "仅可进入受监督实物测试；未经实物验证，不代表 hardware-ready。",
+  "hardware_ready": false,
+  "parameters": {
+    "actuator_delay_physics_steps": [
+      0,
+      3
+    ],
+    "completed_training_iterations": 50000,
+    "effective_config": {
+      "effective_config_fingerprint": "03d6de69baf90c3c07d42fb4cfb25d8bee664ea8cbf9da76b8c4dbe11ef5e591",
+      "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0/2026-09-12_22-05-27/provenance/config-f46d43603f25a340da12ac319f6fd9a594315e59c6bc510c30a5574a910f700f.json",
+      "reward_fingerprint": "b5948683fc914f5d1e44738cfbdb9a139ae1186b708a62b61cf109e0c8703cd4",
+      "sha256": "f46d43603f25a340da12ac319f6fd9a594315e59c6bc510c30a5574a910f700f"
+    },
+    "onnx_export": {
+      "contract": {
+        "batch_contract": "static_batch_1",
+        "input_dtype": "float32",
+        "input_name": "obs",
+        "opset_version": 17,
+        "output_dtype": "float32",
+        "output_name": "actions",
+        "profile": "static_batch_1_simplified",
+        "simplified": true
+      },
+      "input_shape": [
+        1,
+        195
+      ],
+      "output_shape": [
+        1,
+        10
+      ],
+      "post_simplify_node_count": 14,
+      "pre_simplify_node_count": 18,
+      "simplifier_check": true
+    },
+    "reset_actuator_gain_scale": [
+      0.8,
+      1.2
+    ],
+    "reward_weights": {
+      "action_mirror": null,
+      "action_rate_l2": -0.2,
+      "action_smoothness": -0.075,
+      "action_sync": null,
+      "ang_vel_xy_l2": -0.1,
+      "applied_torque_limits": null,
+      "base_height_l2": -15.0,
+      "body_lin_acc_l2": null,
+      "body_orientation_l2": -3.0,
+      "centrifugal_compensation": 3.0,
+      "contact_forces": null,
+      "feet_air_time": null,
+      "feet_air_time_variance": null,
+      "feet_clearance": null,
+      "feet_contact": null,
+      "feet_contact_without_cmd": null,
+      "feet_distance_penalize": -150.0,
+      "feet_distance_y_exp": 3.0,
+      "feet_gait": null,
+      "feet_height": null,
+      "feet_height_body": null,
+      "feet_landing_vel": null,
+      "feet_slide": null,
+      "feet_standing_force_without_cmd": null,
+      "feet_stumble": null,
+      "flat_orientation_l2": -5.0,
+      "is_terminated": -200.0,
+      "joint_acc_l2": -2.5e-07,
+      "joint_acc_wheel_l2": -1.5e-07,
+      "joint_deviation_ankle": -1.0,
+      "joint_deviation_hip": -0.3,
+      "joint_deviation_legs": -0.4,
+      "joint_mirror": null,
+      "joint_pos_limits": -2.0,
+      "joint_pos_penalty": null,
+      "joint_power": -2e-05,
+      "joint_torques_l2": -1.25e-05,
+      "joint_torques_wheel_l2": -0.00016,
+      "joint_vel_l2": -5e-05,
+      "joint_vel_limits": -2.0,
+      "joint_vel_wheel_l2": -0.0005,
+      "keep_alive": 1.0,
+      "lazy_penalty": null,
+      "leg_symmetry": 0.5,
+      "lin_vel_z_l2": -1.0,
+      "same_foot_x_position": -50.0,
+      "stand_still": null,
+      "stop_motion": -5.0,
+      "track_ang_vel_z_exp": 3.0,
+      "track_lin_vel_xy_exp": 4.0,
+      "undesired_contacts": -5.0,
+      "upward": null,
+      "wheel_vel_penalty": null
+    },
+    "seed": 42,
+    "standing_env_ratio": 0.1,
+    "tensor_contract": {
+      "actor_input_order": [
+        "encoded_velocity",
+        "encoded_latent",
+        "current_obs"
+      ],
+      "history_contract": "flat_time_major_history",
+      "normalization_contract": "combined_actor_input",
+      "reset_contract": "environment_history_reset"
+    },
+    "training_num_envs": 4096,
+    "training_run_id": "2026-09-12_22-05-27"
+  },
+  "runner": "OnPolicyRunnerDwaq",
+  "selected_checkpoint": {
+    "iteration": 49999,
+    "path": "/home/server/liufengrong/robot_lab/logs/rsl_rl/LW_wheel_flat_dwaq/2026-09-12_22-05-27/model_49999.pt",
+    "sha256": "4007440e1dac0e48396aa87cc2454202ddb66de730c25790170b6d4c4bcf5652"
+  },
+  "source": {
+    "commit": "d65db4a524f267177fee1710810bc7005ccdfdca",
+    "dirty": true
+  },
+  "storage_root": "/home/server/liufengrong/policy_storage",
+  "task": "RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0",
+  "validated_export": {
+    "export": {
+      "checkpoint_id": "model_49999",
+      "export_id": "user-latest-20260914-001",
+      "run_id": "2026-09-12_22-05-27",
+      "runner": "OnPolicyRunnerDwaq",
+      "task": "RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0"
+    },
+    "inputs": {
+      "checkpoint": {
+        "checkpoint_id": "model_49999",
+        "iteration": 49999,
+        "path": "/home/server/liufengrong/robot_lab/logs/rsl_rl/LW_wheel_flat_dwaq/2026-09-12_22-05-27/model_49999.pt",
+        "sha256": "4007440e1dac0e48396aa87cc2454202ddb66de730c25790170b6d4c4bcf5652",
+        "size_bytes": 4906257
+      },
+      "checkpoint_selection": {
+        "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0/2026-09-12_22-05-27/evidence/checkpoint_selection/selection-user-latest-20260914-001.json",
+        "selection_id": "user-latest-20260914-001",
+        "sha256": "ce8b400bf179c81b8e5cfb712ec2ed3b78c3a21b90dbd7da7adf79511ebe793f"
+      },
+      "effective_config": {
+        "effective_config_fingerprint": "03d6de69baf90c3c07d42fb4cfb25d8bee664ea8cbf9da76b8c4dbe11ef5e591",
+        "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0/2026-09-12_22-05-27/provenance/config-f46d43603f25a340da12ac319f6fd9a594315e59c6bc510c30a5574a910f700f.json",
+        "reward_fingerprint": "b5948683fc914f5d1e44738cfbdb9a139ae1186b708a62b61cf109e0c8703cd4",
+        "sha256": "f46d43603f25a340da12ac319f6fd9a594315e59c6bc510c30a5574a910f700f"
+      },
+      "onnx_export_contract": {
+        "batch_contract": "static_batch_1",
+        "input_dtype": "float32",
+        "input_name": "obs",
+        "opset_version": 17,
+        "output_dtype": "float32",
+        "output_name": "actions",
+        "profile": "static_batch_1_simplified",
+        "simplified": true
+      },
+      "parity_contract": {
+        "max_abs_action_error": 1e-05,
+        "minimum_parity_samples": 8,
+        "num_envs": 1,
+        "parity_steps": 8,
+        "required_boundaries": [
+          "initial",
+          "pre_reset",
+          "post_reset",
+          "final"
+        ],
+        "reset_step": 4,
+        "seed": 42
+      },
+      "run_identity": {
+        "document": {
+          "algorithm": "DWAQPPO",
+          "backend": "rsl_rl",
+          "config_files": [
+            {
+              "path": "scripts/reinforcement_learning/rsl_rl/train.py",
+              "sha256": "95a4a317d71089d9658b85a8048c857fe3990ff5fbf8a558d5e258fdd308f808"
+            },
+            {
+              "path": "scripts/start_dwaq.sh",
+              "sha256": "c1640045e9181f6b6f756e91a16b934fc1ef015e75b366c9c919c636220b44b1"
+            },
+            {
+              "path": "source/robot_lab/robot_lab/assets/LW.py",
+              "sha256": "bf3e50239ae24fa94baf4ed608318ed880f2bc429d0113f010a2c09fba0d8905"
+            },
+            {
+              "path": "source/robot_lab/robot_lab/tasks/manager_based/locomotion/velocity/config/LW/LW_Wheel/__init__.py",
+              "sha256": "6b6612fb65644f78d65667f305dc4ce754ea121ab4e72a53362359e675ef1274"
+            },
+            {
+              "path": "source/robot_lab/robot_lab/tasks/manager_based/locomotion/velocity/config/LW/LW_Wheel/agents/rsl_rl_dwaq_cfg.py",
+              "sha256": "7fda4446c63c98535e54385b08fd320d3fc464b2d46736f8082daef6ce0247de"
+            },
+            {
+              "path": "source/robot_lab/robot_lab/tasks/manager_based/locomotion/velocity/config/LW/LW_Wheel/flat_env_cfg.py",
+              "sha256": "68c6d3fd6641e503da334252b1d8251fda822db306e46fc20dac220f828b63fc"
+            },
+            {
+              "path": "source/robot_lab/robot_lab/tasks/manager_based/locomotion/velocity/config/LW/LW_Wheel/rough_env_cfg.py",
+              "sha256": "1225c46ab31587acb8ed759d998f52e2bb718f7c5512a3a8cfe228218d877f7f"
+            },
+            {
+              "path": "source/robot_lab/robot_lab/tasks/manager_based/locomotion/velocity/mdp/terrains/terrains_cfg.py",
+              "sha256": "8f640c5ec6c0c39b9a7916e701d6342d87c1960a0a7178011b24c992aa29c29d"
+            },
+            {
+              "path": "source/robot_lab/robot_lab/tasks/manager_based/locomotion/velocity/velocity_env_cfg.py",
+              "sha256": "3ebb97c31a34b37e273d2f6a35403ab822875d88897f67c31b894711d4a9b697"
+            },
+            {
+              "path": "source/robot_lab/robot_lab/utils/wrappers/rsl_rl/rl_dwaq_cfg.py",
+              "sha256": "774b182a4377238b68f6cfe9378ec1fdc4a75c5d8a794234be7d06b5bb02a556"
+            }
+          ],
+          "host_id": "server-System-Product-Name",
+          "identity_sha256": "91837ba3b1908fc9e4046a7c39c2b64338ca24a2d3f7acd42339225de6f3c11d",
+          "run_id": "2026-09-12_22-05-27",
+          "runner": "OnPolicyRunnerDwaq",
+          "seed": 42,
+          "source": {
+            "branch": "main",
+            "diff_sha256": "a79fe6f9ba1270de8a7c5ca7e7b797556403224d0ef206e75ff68e4ab4df9140",
+            "dirty": true,
+            "dirty_paths": [
+              "source/robot_lab/robot_lab/assets/LW.py",
+              "source/robot_lab/robot_lab/tasks/manager_based/locomotion/velocity/config/LW/LW_Wheel/flat_env_cfg.py",
+              "source/robot_lab/robot_lab/tasks/manager_based/locomotion/velocity/velocity_env_cfg.py"
+            ],
+            "head": "d65db4a524f267177fee1710810bc7005ccdfdca",
+            "patch_evidence": null,
+            "repository_root": "/home/server/liufengrong/robot_lab"
+          },
+          "task": "RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0",
+          "training": {
+            "command": [
+              "python",
+              "scripts/reinforcement_learning/rsl_rl/train.py",
+              "--task=RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0",
+              "--log_project_name=LW_wheel_locomotion_dwaq",
+              "--logger=wandb",
+              "--num_envs=4096",
+              "--headless"
+            ],
+            "hydra_overrides": []
+          },
+          "version": 2
+        },
+        "identity_sha256": "91837ba3b1908fc9e4046a7c39c2b64338ca24a2d3f7acd42339225de6f3c11d",
+        "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0/2026-09-12_22-05-27/provenance/context-54eedfcce866adfff0f4ca26b6663ebb25b3f777b62c6149451d7e772a92f74a.json",
+        "sha256": "54eedfcce866adfff0f4ca26b6663ebb25b3f777b62c6149451d7e772a92f74a",
+        "size_bytes": 3167
+      },
+      "tensor_contract": {
+        "actor_input_order": [
+          "encoded_velocity",
+          "encoded_latent",
+          "current_obs"
+        ],
+        "history_contract": "flat_time_major_history",
+        "normalization_contract": "combined_actor_input",
+        "reset_contract": "environment_history_reset"
+      }
+    },
+    "onnx_export": {
+      "contract": {
+        "batch_contract": "static_batch_1",
+        "input_dtype": "float32",
+        "input_name": "obs",
+        "opset_version": 17,
+        "output_dtype": "float32",
+        "output_name": "actions",
+        "profile": "static_batch_1_simplified",
+        "simplified": true
+      },
+      "input_shape": [
+        1,
+        195
+      ],
+      "output_shape": [
+        1,
+        10
+      ],
+      "post_simplify_node_count": 14,
+      "pre_simplify_node_count": 18,
+      "simplifier_check": true
+    },
+    "outputs": {
+      "jit": {
+        "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0/2026-09-12_22-05-27/evidence/export/user-latest-20260914-001/policy.pt",
+        "sha256": "31c5fb5056f37cd238cf69aaab94fa4dc9062d54f654c74bed27e7ff0764f251",
+        "size_bytes": 946732
+      },
+      "onnx": {
+        "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0/2026-09-12_22-05-27/evidence/export/user-latest-20260914-001/policy.onnx",
+        "sha256": "1c08aa136ffd2039e1f21ddb435ec0fd411c726c18fa9462490fce25fc417ef1",
+        "size_bytes": 924892
+      }
+    },
+    "parity": {
+      "boundaries": [
+        {
+          "input_shape": [
+            1,
+            195
+          ],
+          "label": "initial",
+          "native_output_sha256": "a9490d1f24c3e9d18326debdde744204760d610a5595f280abdd2d244a78e3ee",
+          "observation_sha256": "492a6d5e51840cc47b27867f099eac668a2b1e07586351700e938b64c2439f6f",
+          "output_shape": [
+            1,
+            10
+          ],
+          "step": 0
+        },
+        {
+          "input_shape": [
+            1,
+            195
+          ],
+          "label": "pre_reset",
+          "native_output_sha256": "97ec9fb7ee75942a2d75e83188ecd5474928fb21331aa2254d0b1cffcc0c6a19",
+          "observation_sha256": "cce3d85482306a02918120a66a70f071d36e8040848295e42c675df195ea2d2e",
+          "output_shape": [
+            1,
+            10
+          ],
+          "step": 3
+        },
+        {
+          "input_shape": [
+            1,
+            195
+          ],
+          "label": "post_reset",
+          "native_output_sha256": "8214154904cf654e1e59a7dddf73a6754a0587dfe1539fb2db72abbc238227ba",
+          "observation_sha256": "2999b53b63f74e6bc5f136becf6d1d17415b7a62ed45a5b47ac83eb1f8b5dd67",
+          "output_shape": [
+            1,
+            10
+          ],
+          "step": 4
+        },
+        {
+          "input_shape": [
+            1,
+            195
+          ],
+          "label": "final",
+          "native_output_sha256": "0938e3c1be94aa620ac08eb0222da49467a4f54a385a86206f88b8b50cbe0316",
+          "observation_sha256": "6ae5560185637a32f38127466a37944276ae7e7421c77c3daba0cdee31d7cd28",
+          "output_shape": [
+            1,
+            10
+          ],
+          "step": 7
+        }
+      ],
+      "history_contract": "flat_time_major_history",
+      "jit": {
+        "finite": true,
+        "input_shape": [
+          8,
+          195
+        ],
+        "max_abs_action_error": 0.0,
+        "output_shape": [
+          8,
+          10
+        ]
+      },
+      "native_device_to_cpu_max_abs_action_error": 4.0531158447265625e-06,
+      "native_output_sha256": "df432629c94a103328b7eaeb8b9547ac1b0cf65df9ae9d4cb6d690287dd57236",
+      "normalization_contract": "combined_actor_input",
+      "observation_batch_sha256": "6b81abbcd45d346b84edb24781c537cf390b535ee7afd672444f2b6f17e9c56b",
+      "onnx": {
+        "finite": true,
+        "input_shape": [
+          8,
+          195
+        ],
+        "max_abs_action_error": 9.5367431640625e-07,
+        "output_shape": [
+          8,
+          10
+        ]
+      },
+      "sample_count": 8
+    },
+    "receipt_path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Dwaq-v0/2026-09-12_22-05-27/evidence/export/user-latest-20260914-001/receipt.json",
+    "status": "completed",
+    "version": 4
+  },
+  "version": 2
+}
