@@ -1,0 +1,55 @@
+策略说明
+
+归档目录: 2026-09-16-15-12-04
+任务: RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0
+算法: ROAPPO
+Runner: OnPolicyRunnerROA
+训练 checkpoint: /home/server/liufengrong/robot_lab/logs/rsl_rl/LW_wheel_flat_roa/2026-09-16_15-12-04/model_49999.pt
+训练轮次: 49999
+Checkpoint SHA-256: 6574370ca9df2dcc49a9ec0caa74172b94af2eb7d2bb66487eccc1a442fab5d8
+训练源码 commit: 2d1b9b1c971c69ba39a30e1f22a9bfcae2326840
+训练源码 dirty: false
+JIT SHA-256: 6efac377c368b8c705727042fb6048dd5917404c4de79211467f2c9bc88bc0c7
+ONNX SHA-256: b5f71d83ce6b8f9acdf73b8e7c4093fefc747db8ec9a08ae6bce72cdb5e9626e
+
+训练参数:
+{
+  "actual_training_commit": "d5373e1f3a88ad21d1321ccb3c130724a00cdd42",
+  "completed_iterations": 50000,
+  "control_period_s": 0.02,
+  "critic_velocity_scale": 2.0,
+  "estimated_velocity_schedule": [
+    0.0,
+    1.0,
+    2000,
+    3000
+  ],
+  "estimated_velocity_schedule_resume": null,
+  "history_length": 10,
+  "privileged_linear_velocity_removed": true,
+  "seed": 42,
+  "single_frame_observation_dim": 39,
+  "training_run": "2026-09-16_15-12-04",
+  "use_velocity_estimation": true
+}
+
+评估证据:
+- /home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0/2026-09-16_15-12-04/evaluations/native-assess-20260917-001/raw/baseline-no-push-a01/result.json
+- /home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0/2026-09-16_15-12-04/evaluations/native-assess-20260917-001/raw/current-push-a01/result.json
+- /home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0/2026-09-16_15-12-04/evaluations/native-assess-20260917-001/raw/nominal-no-noise-a01/result.json
+- /home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0/2026-09-16_15-12-04/evaluations/native-assess-20260917-001/raw/nominal-training-noise-a01/result.json
+- /home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0/2026-09-16_15-12-04/evaluations/roa-noise-ablation-20260917-001/raw/no-angular-velocity-noise-a01/result.json
+- /home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0/2026-09-16_15-12-04/evaluations/roa-noise-ablation-20260917-001/raw/no-gravity-noise-a01/result.json
+- /home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0/2026-09-16_15-12-04/evaluations/roa-noise-ablation-20260917-001/raw/no-joint-velocity-noise-a01/result.json
+- /home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0/2026-09-16_15-12-04/evaluations/roa-true-velocity-20260917-001/raw/all-noise-student-true-velocity-a01/result.json
+
+人工说明:
+本次导出原始 ROA student 策略，显式速度估计开启。此前真实速度替换、关闭噪声等仅为诊断，不包含在部署策略中。
+训练运行开始时间：2026-09-16 15:12:04；归档目录据此命名。
+来源澄清：清单 source 为评估/导出上下文 commit 2d1b9b1c971c69ba39a30e1f22a9bfcae2326840；W&B 记录的实际训练 commit 为 d5373e1f3a88ad21d1321ccb3c130724a00cdd42，相关纯 ROA 源码已核实一致。checkpoint 文件编号 49999，内部下一轮计数为 50000，已完成 50000 次迭代。
+部署输入：float32 [1,390]，10 帧 x 39 维、按时间从旧到新展平；输出 float32 [1,10]。使用环境历史重置；Actor 当前帧归一化关闭。历史编码器输出估计速度及隐变量，再与当前帧拼接。ONNX 为 static_batch_1_simplified、opset 17；Native/CPU/JIT/ONNX 一致性覆盖 8 个时间样本和中途 reset，误差门限 1e-5。
+Native 原始 student 评估 seed=42：运动场景 4 环境、42 秒，无推扰/有推扰平面速度 RMSE 分别 0.1495/0.1936 m/s；均无提前终止。零指令纯平面站立 1 环境、120 秒，第40–120秒无噪声净位移 0.0021 m，有训练观测噪声净位移 0.0418 m；有噪声累计路径 4.0204 m、横滚俯仰角速度 RMS 0.1858 rad/s，仍有抖动。
+诊断发现：单独关闭关节速度噪声出现约1 m漂移；真实速度替换可使站立速度 RMSE 降低51%、姿态角速度 RMS 降低37%，但仍有残余晃动。这些结果不代表部署策略自动获得该改善，也不能推断实物低噪声下表现必然更好或更差。
+当前仅固定 seed 的仿真证据，无实物验证，无已批准收敛判据。部署时需匹配观测顺序、尺度、控制周期、关节动作顺序与重置历史规则。
+
+仅可进入受监督实物测试；未经实物验证，不代表 hardware-ready。
