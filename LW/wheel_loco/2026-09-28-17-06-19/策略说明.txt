@@ -1,0 +1,199 @@
+策略说明
+
+归档目录: 2026-09-28-17-06-19
+任务: RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0
+算法: ROAPPO
+Runner: OnPolicyRunnerROA
+训练 checkpoint: /home/server/liufengrong/robot_lab/logs/rsl_rl/LW_wheel_flat_roa/2026-09-28_17-06-19/model_49999.pt
+训练轮次: 49999
+Checkpoint SHA-256: 920dcfdbf4fe612281a5f10f5c5037296f0881901586fbbf7f10fd7368676770
+训练源码 commit: 0d34228a0b2f00d0e9ab8ec9cb37142559b76b5e
+训练源码 dirty: true
+JIT SHA-256: 561a60f64a4131191aa230c2ad85ec7975094e73615c1ec413a968c4967853a2
+ONNX SHA-256: 752b0895fed28f6816be509828810ea6d306e5ee5d1734d7125a71030379f255
+
+训练参数:
+{
+  "action_order": [
+    "right_hip",
+    "left_hip",
+    "right_thigh",
+    "left_thigh",
+    "right_shank",
+    "left_shank",
+    "right_foot",
+    "left_foot",
+    "right_wheel",
+    "left_wheel"
+  ],
+  "actor_input_dimension": 59,
+  "actor_observation_normalization": false,
+  "actual_actor_input_order": [
+    "current_obs",
+    "hist_latent"
+  ],
+  "additional_arguments_or_hydra_overrides": [],
+  "checkpoint_internal_iter": 50000,
+  "confirmed_launch_command": "bash scripts/start_roa.sh --terrain Flat --type wheel",
+  "decimation": 4,
+  "default_joint_positions_rad": [
+    0,
+    0,
+    0.733,
+    -0.733,
+    -0.1745,
+    0.1745,
+    0,
+    0,
+    0,
+    0
+  ],
+  "effective_config": {
+    "effective_config_fingerprint": "17fecf7cefc247da6ce36852d76853c17a1d88c50017189ab0b7e417cfa74da9",
+    "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0/2026-09-28_17-06-19/provenance/config-d665b79f7c9a61a13aec8c48af044eefa92a36da7dd131e9815597deab184b7e.json",
+    "reward_fingerprint": "bc3874c22b23e21beece6f1e597eefa1decef5f7cab64e058f09d3c574aef0d0",
+    "sha256": "d665b79f7c9a61a13aec8c48af044eefa92a36da7dd131e9815597deab184b7e"
+  },
+  "effective_config_summary": {
+    "fingerprints": {
+      "agent": "4518cadf181798eb7f5eb8cd167548eb2ec9727cfa7e49ba8ed3c49db59c75a6",
+      "effective_config": "17fecf7cefc247da6ce36852d76853c17a1d88c50017189ab0b7e417cfa74da9",
+      "environment": "d821d69bae4124a73f05ed6ad2d89ad51043bea14ff53bc0c485c359e635c4cd",
+      "reward": "bc3874c22b23e21beece6f1e597eefa1decef5f7cab64e058f09d3c574aef0d0"
+    },
+    "resolved_identity": {
+      "algorithm_class": "ROAPPO",
+      "declared_algorithm": "ROAPPO",
+      "runner_class": "OnPolicyRunnerROA",
+      "seed": 42
+    }
+  },
+  "environment": "isaacsim-5.1",
+  "estimated_velocity_schedule_active": false,
+  "hardware_reproduction_paused": true,
+  "history_frames": 10,
+  "history_order": "oldest_first_time_major",
+  "input_dtype": "float32",
+  "input_shape": [
+    1,
+    390
+  ],
+  "normalization_contract": "current_frame_only",
+  "observation_frame_size": 39,
+  "output_shape": [
+    1,
+    10
+  ],
+  "outputs_raw_actions": true,
+  "physics_dt_s": 0.005,
+  "policy_frequency_hz": 50,
+  "position_action_scale_rad": [
+    0.125,
+    0.125,
+    0.25,
+    0.25,
+    0.25,
+    0.25,
+    0.25,
+    0.25
+  ],
+  "saved_training_parameters": {
+    "algorithm": {
+      "class_name": "ROAPPO",
+      "clip_param": "0.2",
+      "dagger_update_freq": "20",
+      "desired_kl": "0.01",
+      "entropy_coef": "0.01",
+      "estimated_velocity_schedule": [
+        "0.0",
+        "1.0",
+        "2000",
+        "3000"
+      ],
+      "estimated_velocity_schedule_resume": "null",
+      "gamma": "0.99",
+      "lam": "0.95",
+      "learning_rate": "0.001",
+      "max_grad_norm": "1.0",
+      "normalize_advantage_per_mini_batch": "false",
+      "num_learning_epochs": "5",
+      "num_mini_batches": "4",
+      "priv_reg_coef_schedule": [
+        "0.0",
+        "0.1",
+        "2000",
+        "3000"
+      ],
+      "priv_reg_coef_schedule_resume": "null",
+      "rnd_cfg": "null",
+      "schedule": "adaptive",
+      "symmetry_cfg": "null",
+      "use_clipped_value_loss": "true",
+      "value_loss_coef": "1.0",
+      "vel_loss_coef": "1.0"
+    },
+    "device": "cuda:0",
+    "experiment_name": "LW_wheel_flat_roa",
+    "logger": "wandb",
+    "max_iterations": 50000,
+    "num_envs": 4096,
+    "num_steps_per_env": 24,
+    "policy": {
+      "activation": "elu",
+      "actor_hidden_dims": [
+        "512",
+        "256",
+        "128"
+      ],
+      "actor_obs_normalization": "false",
+      "class_name": "ActorCriticROA",
+      "critic_hidden_dims": [
+        "512",
+        "256",
+        "128"
+      ],
+      "critic_obs_normalization": "false",
+      "init_noise_std": "1.0",
+      "noise_std_type": "scalar",
+      "priv_encoder_dims": [
+        "64",
+        "20"
+      ],
+      "state_dependent_std": "false",
+      "use_velocity_estimation": "false",
+      "vel_offset": "39"
+    },
+    "resume": false
+  },
+  "training_actuator_delay_physics_steps": [
+    0,
+    3
+  ],
+  "use_velocity_estimation": false,
+  "velocity_code_dimension": 0,
+  "velocity_loss_status": "not_applicable_no_velocity_head",
+  "wheel_velocity_action_scale_rad_s": [
+    1,
+    1
+  ]
+}
+
+评估证据:
+- /home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0/2026-09-28_17-06-19/evaluations/wheel-flat-no-velocity-assess-20260929-001/raw/right-delay15-noise-a01/result.json
+- /home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0/2026-09-28_17-06-19/evaluations/wheel-flat-no-velocity-assess-20260929-001/raw/left-delay15-noise-a01/result.json
+- /home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0/2026-09-28_17-06-19/evaluations/wheel-flat-no-velocity-assess-20260929-001/raw/right-delay30-noise-a01/result.json
+- /home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0/2026-09-28_17-06-19/evaluations/wheel-flat-no-velocity-assess-20260929-001/raw/left-delay30-noise-a01/result.json
+- /home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0/2026-09-28_17-06-19/evaluations/wheel-flat-no-velocity-assess-20260929-001/raw/nominal-no-noise-a01/result.json
+- /home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-Velocity-Flat-LW-wheel-Roa-v0/2026-09-28_17-06-19/evaluations/wheel-flat-no-velocity-assess-20260929-001/raw/nominal-training-noise-a01/result.json
+
+人工说明:
+用户明确选择将 2026-09-28_17-06-19/model_49999.pt 导出至 policy_storage 并提交推送。目录采用训练启动时间 2026-09-28-17-06-19。文件编号 49999；checkpoint 内部下一迭代为 50000。
+本轮为独立训练的无显式速度估计 ROA：use_velocity_estimation=False，保留 20 维历史隐编码，不含 3 维显式速度输入或速度监督。Actor 输入为 current_obs(39)+hist_latent(20)，共 59 维。ROA 家族凭据中的 code_vel 顺序槽在本模型中为零维，不应补入 3 个速度数值。
+用户确认在 isaacsim-5.1 执行 bash scripts/start_roa.sh --terrain Flat --type wheel，无附加参数或 Hydra 覆盖。真实训练源码 HEAD 为 0d34228a0b2f00d0e9ab8ec9cb37142559b76b5e，当时 wheel 的 rsl_rl_roa_cfg.py 未提交改动仅为 use_velocity_estimation=True→False。使用保存的 W&B metadata/git diff 重建历史来源，并逐字节核对 11 个相关源码文件；这不是训练进程现场证明。评估/导出执行时 HEAD 为 175206032beca49f7f3e2e5588f387d3a2ad7494。
+模型接口：float32 obs[1,390]，10帧×39维、最旧帧在前的 time-major 历史；actions[1,10] 是原始动作。消费者须维护环境历史重置契约。位置目标为 default_position+raw_action*scale：双髋 0.125 rad，其余六个腿关节 0.25 rad；轮关节速度目标 scale=1.0 rad/s。scale 未烘焙进模型。
+导出校验覆盖 8 个真实环境观测和 initial/pre_reset/post_reset/final 边界，reset_step=4、seed=42、单环境。Native GPU→CPU 最大动作误差 2.86102294921875e-6，CPU→JIT 0，CPU→ONNX 1.9073486328125e-6，通过 1e-5 阈值。ONNX 为 static_batch_1_simplified，opset17，最终简化检查通过。数值一致性校验不替代运动评估。
+本策略已完成 6 个 Native 场景、30000 步，遥测完整，均无 done/timeout。42–70s 稳态转弯相对 9/26 含估计 ROA：身体 roll/pitch 角速度 RMS 增加约 10–39%，双髋 5–25Hz 速度 RMS 有升有降（约 -7%至+11%）；左转 yaw 误差降低约17%，右转增加约6%，XY 跟踪误差四场增加约8–62%。40–120s 零指令站立，无噪声净漂移 1.300m（9/26 为0.0048m），训练噪声漂移 1.437m（9/26 为0.977m）；双髋高频抖动减小但身体摆动和保持位置更差。旧结果复用已封存证据，没有重跑旧策略。
+9/24 实机数据静态对照只新增本策略推理，共48985个输入向量。增长段 Gq=2.102 rad/rad、Gdq=0.05672 rad/(rad/s)、髋目标逐步变化 RMS=0.5633rad；相对9/26分别约-25%、+88%、+29%。Gdq 指髋关节速度输入。旧DWAQ为6/3模型；历史原始上一动作保持0.25 scale契约，输出分别采用各自物理scale换算，未做目标等效重映射。这是冻结输入局部敏感度，不是新策略实机闭环证据或速度估计因果证明。
+无批准的验收阈值，收敛尚未判定；归档是用户选择，不代表全面优于旧策略。新策略未取得实机验证；实机复现仍暂停。
+
+仅可进入受监督实物测试；未经实物验证，不代表 hardware-ready。
