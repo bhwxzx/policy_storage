@@ -12,6 +12,34 @@ Checkpoint SHA-256: 72c5150a1bcf2f8b76ac33959113e4325e231e290fcd352772ccf4def156
 JIT SHA-256: f9594f62a7dd3ca290b993e1b407b298ca1dcfb1363a34f18384a350c2d869c7
 ONNX SHA-256: 2a94dbf5fafc1cd83bc0098476e95c3af14f4ba81a6001cf14da60325a107f8b
 
+原始参考CSV（直接复制）:
+{
+  "archive_filename": "leg_to_wheel_transform_60hz.csv",
+  "columns": 17,
+  "fps": 60,
+  "frames": 201,
+  "generated_npz": {
+    "path": "/home/young/liufengrong/robot_lab/source/robot_lab/robot_lab/datasets/LW/motion_beyondmimic/se3_trajopt/2026-10-01/leg_to_wheel_transform_50hz.npz",
+    "sha256": "9ff53e159acedd59f89179c75f08e1e2521af3573e267f0192d60e07586b3ec1"
+  },
+  "joint_names": [
+    "right_hip_joint",
+    "left_hip_joint",
+    "right_thigh_joint",
+    "left_thigh_joint",
+    "right_shank_joint",
+    "left_shank_joint",
+    "right_foot_joint",
+    "left_foot_joint",
+    "right_wheel_joint",
+    "left_wheel_joint"
+  ],
+  "path": "/home/young/liufengrong/robot_lab/source/robot_lab/robot_lab/datasets/LW/motion_beyondmimic/se3_trajopt/2026-10-01/leg_to_wheel_transform_60hz.csv",
+  "quaternion_order": "xyzw",
+  "sha256": "57f969391b97ecd9274bf60add4b790f83e0d41e1ca1d7fdb373cd4811ad91ac"
+}
+CSV保留原始采样率、帧数、列顺序和字节；NPZ仅记录来源路径与哈希，不归档文件。
+
 训练参数:
 {
   "action_width": 10,

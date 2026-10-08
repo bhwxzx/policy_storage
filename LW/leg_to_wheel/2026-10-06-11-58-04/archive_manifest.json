@@ -109,6 +109,31 @@
     },
     "training_start_local": "2026-10-06_11-58-04"
   },
+  "reference_csv": {
+    "archive_filename": "leg_to_wheel_transform_60hz.csv",
+    "columns": 17,
+    "fps": 60,
+    "frames": 201,
+    "generated_npz": {
+      "path": "/home/young/liufengrong/robot_lab/source/robot_lab/robot_lab/datasets/LW/motion_beyondmimic/se3_trajopt/2026-10-01/leg_to_wheel_transform_50hz.npz",
+      "sha256": "9ff53e159acedd59f89179c75f08e1e2521af3573e267f0192d60e07586b3ec1"
+    },
+    "joint_names": [
+      "right_hip_joint",
+      "left_hip_joint",
+      "right_thigh_joint",
+      "left_thigh_joint",
+      "right_shank_joint",
+      "left_shank_joint",
+      "right_foot_joint",
+      "left_foot_joint",
+      "right_wheel_joint",
+      "left_wheel_joint"
+    ],
+    "path": "/home/young/liufengrong/robot_lab/source/robot_lab/robot_lab/datasets/LW/motion_beyondmimic/se3_trajopt/2026-10-01/leg_to_wheel_transform_60hz.csv",
+    "quaternion_order": "xyzw",
+    "sha256": "57f969391b97ecd9274bf60add4b790f83e0d41e1ca1d7fdb373cd4811ad91ac"
+  },
   "runner": "OnPolicyRunner",
   "selected_checkpoint": {
     "iteration": 49999,
