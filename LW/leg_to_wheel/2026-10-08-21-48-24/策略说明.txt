@@ -1,0 +1,771 @@
+策略说明
+
+归档目录: 2026-10-08-21-48-24
+任务: RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0
+算法: PPO
+Runner: OnPolicyRunner
+训练 checkpoint: /home/young/liufengrong/robot_lab/logs/rsl_rl/LW_leg_beyongdmimic/2026-10-08_21-48-24/model_49999.pt
+训练轮次: 49999
+Checkpoint SHA-256: 505e713f83d0e925d29889839c7b8774c7aca1055e32c3e13814313079a1b507
+训练源码 commit: ba742c5c2c4f2e5ff08ef15843388ea7322d148a
+训练源码 dirty: false
+JIT SHA-256: c9466acada9c2b09bbda9b8b5afaa07cc3331f84aa1d555bdc69c793543b9e4f
+ONNX SHA-256: 6aa4c65928112238a3828d787e757f154264ebdec9483131bd70cee4b1e16f9d
+
+原始参考CSV（直接复制）:
+{
+  "archive_filename": "leg_to_wheel_transform_60hz.csv",
+  "columns": 17,
+  "fps": 60,
+  "frames": 204,
+  "generated_npz": {
+    "path": "/home/young/liufengrong/robot_lab/source/robot_lab/robot_lab/datasets/LW/motion_beyondmimic/se3_trajopt/2026-10-08/leg_to_wheel_transform_50hz.npz",
+    "sha256": "8f5dec53148b5229b28055b8af968d18dc757e873f1a04bd423b0e8bfc6b2a6b"
+  },
+  "joint_names": [
+    "right_hip_joint",
+    "left_hip_joint",
+    "right_thigh_joint",
+    "left_thigh_joint",
+    "right_shank_joint",
+    "left_shank_joint",
+    "right_foot_joint",
+    "left_foot_joint",
+    "right_wheel_joint",
+    "left_wheel_joint"
+  ],
+  "path": "/home/young/liufengrong/robot_lab/source/robot_lab/robot_lab/datasets/LW/motion_beyondmimic/se3_trajopt/2026-10-08/leg_to_wheel_transform_60hz.csv",
+  "quaternion_order": "xyzw",
+  "sha256": "ef3ced90bda48a949c21e20cdc4e35cd105198746773471c424af171c1d7f4ad"
+}
+CSV保留原始采样率、帧数、列顺序和字节；NPZ仅记录来源路径与哈希，不归档文件。
+
+训练参数:
+{
+  "action_contract": {
+    "action_terms": {
+      "joint_pos": {
+        "asset_name": "robot",
+        "class_type": "isaaclab.envs.mdp.actions.joint_actions:JointPositionAction",
+        "clip": {
+          ".*": [
+            -100.0,
+            100.0
+          ]
+        },
+        "debug_vis": false,
+        "joint_names": [
+          "right_hip_joint",
+          "left_hip_joint",
+          "right_thigh_joint",
+          "left_thigh_joint",
+          "right_shank_joint",
+          "left_shank_joint",
+          "right_foot_joint",
+          "left_foot_joint"
+        ],
+        "offset": 0.0,
+        "preserve_order": true,
+        "scale": 0.25,
+        "use_default_offset": true
+      },
+      "joint_vel": {
+        "asset_name": "robot",
+        "class_type": "isaaclab.envs.mdp.actions.joint_actions:JointVelocityAction",
+        "clip": {
+          ".*": [
+            -100.0,
+            100.0
+          ]
+        },
+        "debug_vis": false,
+        "joint_names": [
+          "right_wheel_joint",
+          "left_wheel_joint"
+        ],
+        "offset": 0.0,
+        "preserve_order": true,
+        "scale": 1.0,
+        "use_default_offset": true
+      }
+    },
+    "joint_order": [
+      "right_hip_joint",
+      "left_hip_joint",
+      "right_thigh_joint",
+      "left_thigh_joint",
+      "right_shank_joint",
+      "left_shank_joint",
+      "right_foot_joint",
+      "left_foot_joint",
+      "right_wheel_joint",
+      "left_wheel_joint"
+    ],
+    "note": "first 8 position targets with 0.25 scale/default offsets; last 2 wheel velocity targets with 1.0 scale/default offsets",
+    "output_dtype": "float32",
+    "output_name": "actions",
+    "output_shape": [
+      1,
+      10
+    ]
+  },
+  "actuators": {
+    "foots": {
+      "armature": 0.01,
+      "class_type": "isaaclab.actuators.actuator_pd:DelayedPDActuator",
+      "damping": 1.4,
+      "dynamic_friction": null,
+      "effort_limit": 27.0,
+      "effort_limit_sim": null,
+      "friction": null,
+      "joint_names_expr": [
+        "right_foot_joint",
+        "left_foot_joint"
+      ],
+      "max_delay": 3,
+      "min_delay": 0,
+      "stiffness": 28.0,
+      "velocity_limit": 10.0,
+      "velocity_limit_sim": null,
+      "viscous_friction": null
+    },
+    "legs": {
+      "armature": 0.01,
+      "class_type": "isaaclab.actuators.actuator_pd:DelayedPDActuator",
+      "damping": 3.0,
+      "dynamic_friction": null,
+      "effort_limit": 120.0,
+      "effort_limit_sim": null,
+      "friction": null,
+      "joint_names_expr": [
+        "right_hip_joint",
+        "left_hip_joint",
+        "right_thigh_joint",
+        "left_thigh_joint",
+        "right_shank_joint",
+        "left_shank_joint"
+      ],
+      "max_delay": 3,
+      "min_delay": 0,
+      "stiffness": 90.0,
+      "velocity_limit": 20.0,
+      "velocity_limit_sim": null,
+      "viscous_friction": null
+    },
+    "wheels": {
+      "armature": 0.01,
+      "class_type": "isaaclab.actuators.actuator_pd:DelayedPDActuator",
+      "damping": 0.5,
+      "dynamic_friction": null,
+      "effort_limit": 40.0,
+      "effort_limit_sim": null,
+      "friction": null,
+      "joint_names_expr": [
+        "right_wheel_joint",
+        "left_wheel_joint"
+      ],
+      "max_delay": 3,
+      "min_delay": 0,
+      "stiffness": 0.0,
+      "velocity_limit": 33.0,
+      "velocity_limit_sim": null,
+      "viscous_friction": null
+    }
+  },
+  "agent_configuration": {
+    "algorithm": {
+      "class_name": "PPO",
+      "clip_param": 0.2,
+      "desired_kl": 0.01,
+      "entropy_coef": 0.005,
+      "gamma": 0.99,
+      "lam": 0.95,
+      "learning_rate": 0.001,
+      "max_grad_norm": 1.0,
+      "normalize_advantage_per_mini_batch": false,
+      "num_learning_epochs": 5,
+      "num_mini_batches": 4,
+      "rnd_cfg": null,
+      "schedule": "adaptive",
+      "symmetry_cfg": null,
+      "use_clipped_value_loss": true,
+      "value_loss_coef": 1.0
+    },
+    "class_name": "OnPolicyRunner",
+    "clip_actions": null,
+    "device": "cuda:0",
+    "empirical_normalization": null,
+    "experiment_name": "LW_leg_beyongdmimic",
+    "load_checkpoint": "model_.*.pt",
+    "load_run": ".*",
+    "logger": "wandb",
+    "max_iterations": 50000,
+    "neptune_project": "LW_leg_beyondmimic",
+    "num_steps_per_env": 24,
+    "obs_groups": {},
+    "policy": {
+      "activation": "elu",
+      "actor_hidden_dims": [
+        512,
+        256,
+        128
+      ],
+      "actor_obs_normalization": false,
+      "class_name": "ActorCritic",
+      "critic_hidden_dims": [
+        512,
+        256,
+        128
+      ],
+      "critic_obs_normalization": false,
+      "init_noise_std": 1.0,
+      "noise_std_type": "scalar",
+      "state_dependent_std": false
+    },
+    "resume": false,
+    "run_name": "",
+    "save_interval": 1000,
+    "seed": 42,
+    "wandb_project": "LW_leg_beyondmimic"
+  },
+  "archive_directory_timestamp": "2026-10-08-21-48-24",
+  "checkpoint_comparison_report": {
+    "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0/2026-10-08_21-48-24/evidence/training/checkpoint-comparison-20261009-002.md",
+    "sha256": "9fa894dc676961598bc314e0521b668654abe55cdfd36bcb96f394280376c8e6"
+  },
+  "control_dt_s": 0.02,
+  "decimation": 4,
+  "domain_randomization": {
+    "add_joint_default_pos": {
+      "func": "robot_lab.tasks.manager_based.beyondmimic.mdp.events:randomize_joint_default_pos",
+      "interval_range_s": null,
+      "is_global_time": false,
+      "min_step_count_between_reset": 0,
+      "mode": "startup",
+      "params": {
+        "asset_cfg": {
+          "body_ids": [
+            null,
+            null,
+            null
+          ],
+          "body_names": null,
+          "fixed_tendon_ids": [
+            null,
+            null,
+            null
+          ],
+          "fixed_tendon_names": null,
+          "joint_ids": [
+            null,
+            null,
+            null
+          ],
+          "joint_names": [
+            "right_hip_joint",
+            "left_hip_joint",
+            "right_thigh_joint",
+            "left_thigh_joint",
+            "right_shank_joint",
+            "left_shank_joint",
+            "right_foot_joint",
+            "left_foot_joint"
+          ],
+          "name": "robot",
+          "object_collection_ids": [
+            null,
+            null,
+            null
+          ],
+          "object_collection_names": null,
+          "preserve_order": false
+        },
+        "operation": "add",
+        "pos_distribution_params": [
+          -0.01,
+          0.01
+        ]
+      }
+    },
+    "base_com": {
+      "func": "robot_lab.tasks.manager_based.beyondmimic.mdp.events:randomize_rigid_body_com",
+      "interval_range_s": null,
+      "is_global_time": false,
+      "min_step_count_between_reset": 0,
+      "mode": "startup",
+      "params": {
+        "asset_cfg": {
+          "body_ids": [
+            null,
+            null,
+            null
+          ],
+          "body_names": "base_link",
+          "fixed_tendon_ids": [
+            null,
+            null,
+            null
+          ],
+          "fixed_tendon_names": null,
+          "joint_ids": [
+            null,
+            null,
+            null
+          ],
+          "joint_names": null,
+          "name": "robot",
+          "object_collection_ids": [
+            null,
+            null,
+            null
+          ],
+          "object_collection_names": null,
+          "preserve_order": false
+        },
+        "com_range": {
+          "x": [
+            -0.075,
+            0.075
+          ],
+          "y": [
+            -0.075,
+            0.075
+          ],
+          "z": [
+            -0.075,
+            0.075
+          ]
+        }
+      }
+    },
+    "physics_material": {
+      "func": "isaaclab.envs.mdp.events:randomize_rigid_body_material",
+      "interval_range_s": null,
+      "is_global_time": false,
+      "min_step_count_between_reset": 0,
+      "mode": "startup",
+      "params": {
+        "asset_cfg": {
+          "body_ids": [
+            null,
+            null,
+            null
+          ],
+          "body_names": ".*",
+          "fixed_tendon_ids": [
+            null,
+            null,
+            null
+          ],
+          "fixed_tendon_names": null,
+          "joint_ids": [
+            null,
+            null,
+            null
+          ],
+          "joint_names": null,
+          "name": "robot",
+          "object_collection_ids": [
+            null,
+            null,
+            null
+          ],
+          "object_collection_names": null,
+          "preserve_order": false
+        },
+        "dynamic_friction_range": [
+          0.3,
+          1.2
+        ],
+        "make_consistent": true,
+        "num_buckets": 64,
+        "restitution_range": [
+          0.0,
+          0.5
+        ],
+        "static_friction_range": [
+          0.3,
+          1.6
+        ]
+      }
+    },
+    "push_robot": null,
+    "randomize_actuator_gains": {
+      "func": "isaaclab.envs.mdp.events:randomize_actuator_gains",
+      "interval_range_s": null,
+      "is_global_time": false,
+      "min_step_count_between_reset": 0,
+      "mode": "reset",
+      "params": {
+        "asset_cfg": {
+          "body_ids": [
+            null,
+            null,
+            null
+          ],
+          "body_names": null,
+          "fixed_tendon_ids": [
+            null,
+            null,
+            null
+          ],
+          "fixed_tendon_names": null,
+          "joint_ids": [
+            null,
+            null,
+            null
+          ],
+          "joint_names": ".*",
+          "name": "robot",
+          "object_collection_ids": [
+            null,
+            null,
+            null
+          ],
+          "object_collection_names": null,
+          "preserve_order": false
+        },
+        "damping_distribution_params": [
+          0.8,
+          1.2
+        ],
+        "distribution": "uniform",
+        "operation": "scale",
+        "stiffness_distribution_params": [
+          0.8,
+          1.2
+        ]
+      }
+    },
+    "randomize_rigid_body_mass_base": {
+      "func": "isaaclab.envs.mdp.events:randomize_rigid_body_mass",
+      "interval_range_s": null,
+      "is_global_time": false,
+      "min_step_count_between_reset": 0,
+      "mode": "startup",
+      "params": {
+        "asset_cfg": {
+          "body_ids": [
+            null,
+            null,
+            null
+          ],
+          "body_names": [
+            "base_link"
+          ],
+          "fixed_tendon_ids": [
+            null,
+            null,
+            null
+          ],
+          "fixed_tendon_names": null,
+          "joint_ids": [
+            null,
+            null,
+            null
+          ],
+          "joint_names": null,
+          "name": "robot",
+          "object_collection_ids": [
+            null,
+            null,
+            null
+          ],
+          "object_collection_names": null,
+          "preserve_order": false
+        },
+        "mass_distribution_params": [
+          0.0,
+          3.0
+        ],
+        "operation": "add",
+        "recompute_inertia": true
+      }
+    },
+    "randomize_rigid_body_mass_others": {
+      "func": "isaaclab.envs.mdp.events:randomize_rigid_body_mass",
+      "interval_range_s": null,
+      "is_global_time": false,
+      "min_step_count_between_reset": 0,
+      "mode": "startup",
+      "params": {
+        "asset_cfg": {
+          "body_ids": [
+            null,
+            null,
+            null
+          ],
+          "body_names": [
+            "right_hip_link",
+            "left_hip_link",
+            "right_thigh_link",
+            "left_thigh_link",
+            "right_shank_link",
+            "left_shank_link",
+            "right_foot_link",
+            "left_foot_link",
+            "right_wheel_link",
+            "left_wheel_link"
+          ],
+          "fixed_tendon_ids": [
+            null,
+            null,
+            null
+          ],
+          "fixed_tendon_names": null,
+          "joint_ids": [
+            null,
+            null,
+            null
+          ],
+          "joint_names": null,
+          "name": "robot",
+          "object_collection_ids": [
+            null,
+            null,
+            null
+          ],
+          "object_collection_names": null,
+          "preserve_order": false
+        },
+        "mass_distribution_params": [
+          0.8,
+          1.2
+        ],
+        "operation": "scale",
+        "recompute_inertia": true
+      }
+    }
+  },
+  "export_checkout": {
+    "dirty": true,
+    "head": "0eb1b8824075b2a43b0aea4f7afe9ae3810487d2",
+    "note": "export/evaluation checkout differs from original training provenance; approved 1.65 s source changes retained",
+    "runtime_reward_time_overrides": [
+      "env.rewards.motion_takeoff_pitch_ang_vel.params.end_time_s=1.6",
+      "env.rewards.motion_takeoff_anchor_ori.params.end_time_s=1.6",
+      "env.rewards.wheel_contact_continuous.params.start_time_s=1.6",
+      "env.rewards.leg_symmetry.params.start_time_s=1.6",
+      "env.rewards.same_foot_x_position.params.start_time_s=1.6"
+    ]
+  },
+  "export_parity_contract": {
+    "max_abs_action_error": 1e-05,
+    "minimum_parity_samples": 8,
+    "num_envs": 1,
+    "parity_steps": 8,
+    "required_boundaries": [
+      "initial",
+      "pre_reset",
+      "post_reset",
+      "final"
+    ],
+    "reset_step": 4,
+    "seed": 42
+  },
+  "export_profile": {
+    "batch_contract": "static_batch_1",
+    "input_dtype": "float32",
+    "input_name": "obs",
+    "opset_version": 17,
+    "output_dtype": "float32",
+    "output_name": "actions",
+    "profile": "static_batch_1_simplified",
+    "simplified": true
+  },
+  "export_supervision": {
+    "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0/2026-10-08_21-48-24/evidence/export/final-storage-20261009-001/supervision.json",
+    "sha256": "5c7d6f5ec2bf197d6e69c73495800f4ecb6641bfc52c9fb3d0c0a986fe00696f"
+  },
+  "motion_reference": {
+    "path": "/home/young/liufengrong/robot_lab/source/robot_lab/robot_lab/datasets/LW/motion_beyondmimic/se3_trajopt/2026-10-08/leg_to_wheel_transform_50hz.npz",
+    "sha256": "8f5dec53148b5229b28055b8af968d18dc757e873f1a04bd423b0e8bfc6b2a6b"
+  },
+  "motion_reference_fps": 50,
+  "motion_reference_frames": 170,
+  "observation_contract": {
+    "actor_observation_normalization": false,
+    "blocks": [
+      {
+        "history_frames": 10,
+        "name": "command",
+        "offset_end_exclusive": 200,
+        "offset_start": 0,
+        "per_frame_width": 20,
+        "temporal_order": "oldest_to_newest"
+      },
+      {
+        "history_frames": 10,
+        "name": "motion_anchor_ori_b",
+        "offset_end_exclusive": 260,
+        "offset_start": 200,
+        "per_frame_width": 6,
+        "temporal_order": "oldest_to_newest"
+      },
+      {
+        "history_frames": 10,
+        "name": "base_ang_vel",
+        "offset_end_exclusive": 290,
+        "offset_start": 260,
+        "per_frame_width": 3,
+        "temporal_order": "oldest_to_newest"
+      },
+      {
+        "history_frames": 10,
+        "name": "joint_pos",
+        "offset_end_exclusive": 390,
+        "offset_start": 290,
+        "per_frame_width": 10,
+        "temporal_order": "oldest_to_newest"
+      },
+      {
+        "history_frames": 10,
+        "name": "joint_vel",
+        "offset_end_exclusive": 490,
+        "offset_start": 390,
+        "per_frame_width": 10,
+        "temporal_order": "oldest_to_newest"
+      },
+      {
+        "history_frames": 10,
+        "name": "actions",
+        "offset_end_exclusive": 590,
+        "offset_start": 490,
+        "per_frame_width": 10,
+        "temporal_order": "oldest_to_newest"
+      }
+    ],
+    "command_layout": "10 reference joint positions followed by 10 reference joint velocities",
+    "frames": 10,
+    "history_layout": "term blocks; oldest-to-newest time within each term",
+    "history_reset_owner": "environment or deployment consumer; match CircularBuffer.reset/append semantics",
+    "input_dtype": "float32",
+    "input_name": "obs",
+    "input_shape": [
+      1,
+      590
+    ],
+    "interface_attestation": {
+      "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0/2026-10-08_21-48-24/evidence/export/final-storage-20261009-001/tensor-interface-attestation.json",
+      "sha256": "e8b5a505ccefe760cff81002afaa749dfcf33729315773ad2c14410549659a06"
+    },
+    "joint_order": [
+      "right_hip_joint",
+      "left_hip_joint",
+      "right_thigh_joint",
+      "left_thigh_joint",
+      "right_shank_joint",
+      "left_shank_joint",
+      "right_foot_joint",
+      "left_foot_joint",
+      "right_wheel_joint",
+      "left_wheel_joint"
+    ],
+    "joint_position_wheels": "wheel positions kept as zero-valued columns",
+    "network_state": "stateless",
+    "orientation_encoding": "3x3 relative anchor rotation matrix first two columns reshaped to 6 values",
+    "per_frame_width": 59
+  },
+  "physics_dt_s": 0.005,
+  "reward_time_parameters_s": {
+    "leg_symmetry": {
+      "start_time_s": 1.6
+    },
+    "motion_takeoff_anchor_ori": {
+      "end_time_s": 1.6,
+      "start_time_s": 1.0
+    },
+    "motion_takeoff_pitch_ang_vel": {
+      "end_time_s": 1.6,
+      "start_time_s": 1.0
+    },
+    "same_foot_x_position": {
+      "start_time_s": 1.6
+    },
+    "wheel_contact_continuous": {
+      "start_time_s": 1.6
+    }
+  },
+  "reward_weights": {
+    "action_rate_l2": -0.2,
+    "action_smoothness": -0.075,
+    "hip_pos_zero_l2": -1.0,
+    "joint_acc_wheel_l2": 0.0,
+    "joint_limit": -10.0,
+    "joint_power": 0.0,
+    "joint_torques_foot_l2": 0.0,
+    "joint_torques_l2": null,
+    "joint_torques_shank_l2": 0.0,
+    "joint_vel_wheel_l2": 0.0,
+    "leg_symmetry": 0.0,
+    "motion_body_ang_vel": 1.0,
+    "motion_body_lin_vel": 1.0,
+    "motion_body_ori": 1.0,
+    "motion_body_pos": 1.0,
+    "motion_global_anchor_ori": 0.5,
+    "motion_global_anchor_pos": 0.5,
+    "motion_takeoff_anchor_ori": 0.5,
+    "motion_takeoff_pitch_ang_vel": -0.03,
+    "same_foot_x_position": -10.0,
+    "torque_limit": -0.0,
+    "torque_limit_foot": 0.0,
+    "torque_limit_shank": 0.0,
+    "undesired_contacts": -0.1,
+    "wheel_contact_continuous": 0.5
+  },
+  "saved_configuration": {
+    "agent": {
+      "path": "/home/young/liufengrong/robot_lab/logs/rsl_rl/LW_leg_beyongdmimic/2026-10-08_21-48-24/params/agent.yaml",
+      "sha256": "e33bdb9bc9c8d905bc6d0d5e320a1c521862e237e66a0eeeab52d074ae23a31f",
+      "size_bytes": 1016
+    },
+    "effective_config": {
+      "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0/2026-10-08_21-48-24/provenance/config-6bc3906349a38b20aca8bdde3f6e31cf111ec38e6277c0db84c1d1ec95f9b329.json",
+      "sha256": "6bc3906349a38b20aca8bdde3f6e31cf111ec38e6277c0db84c1d1ec95f9b329"
+    },
+    "environment": {
+      "path": "/home/young/liufengrong/robot_lab/logs/rsl_rl/LW_leg_beyongdmimic/2026-10-08_21-48-24/params/env.yaml",
+      "sha256": "6d4d55743028d60aa4028e87c0dc4de00a0aed85b45ff4ef8a8acced7554476f",
+      "size_bytes": 50547
+    }
+  },
+  "training_identity": {
+    "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0/2026-10-08_21-48-24/provenance/context-c189cc7cb315bb70583f771e9ac1f80fddb21f1a6efee08309bbf93ea071c431.json",
+    "sha256": "c189cc7cb315bb70583f771e9ac1f80fddb21f1a6efee08309bbf93ea071c431"
+  },
+  "training_parameters": {
+    "device": "cuda:0",
+    "experiment_name": "LW_leg_beyongdmimic",
+    "logger": "wandb",
+    "max_iterations": 50000,
+    "num_envs": 4096,
+    "num_steps_per_env": 24,
+    "resume": false,
+    "run_name": ""
+  },
+  "training_source_attestation": {
+    "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0/2026-10-08_21-48-24/evidence/source/training-source-final-storage-20261009-001.json",
+    "sha256": "4eab606666e41614e681d33a7447f9977de99afd421ddeb7070aaf6304343dff"
+  },
+  "training_start": "2026-10-08_21-48-24"
+}
+
+评估证据:
+- /home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0/2026-10-08_21-48-24/evaluations/history10-newref-20261009-001/raw/play-equivalent-a01/result.json
+- /home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0/2026-10-08_21-48-24/evaluations/history10-newref-20261009-001/raw/zero-delay-a01/result.json
+- /home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0/2026-10-08_21-48-24/evaluations/history10-newref-20261009-001/raw/fixed-15ms-a01/result.json
+- /home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0/2026-10-08_21-48-24/evaluations/history10-newref-20261009-001/raw/legacy-randomized-no-push-a01/result.json
+- /home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0/2026-10-08_21-48-24/evaluations/history10-newref-20261009-001/raw/current-randomized-no-push-a01/result.json
+
+人工说明:
+用户明确要求归档10/8 21:48训练的最终轮，实际末轮为model_49999.pt（不存在model_50000.pt）；这不是10/9 12:49新训练的最终策略。
+原49999轮五场景评估复用，不重跑：play等效、零延迟、固定15ms、旧随机化无push、当前随机化无push。每场Native、seed42、1环境、1000控制步，每场5个完整成功周期，共25个完整成功周期、0个策略失败周期；截断尾段未计入主统计。
+该轮次按准备足关节超限需求与当前随机化roll优先选用；45000轮保留为落地与腾空时序优先的对照。所有五个候选均为非支配方案，不称任何策略全面最优；不同checkpoint及随机化组属于整体方案比较，不能作单项因果归因。
+当前随机化49999轮：准备足超27Nm需求4 joint-ms/周期，小腿蹬地RMS73.211Nm、峰值108.334Nm，roll RMS2.042度；入地前轮轴下降速度最大2.334m/s，首次轮接触50ms双轮法向冲量均值37.517N·s。五场景平均腾空245.8ms，短于参考计划300ms。
+接触力为PhysX传感器5ms步内平均力，求和采样峰不是实物瞬时冲击峰；50ms法向冲量包含支撑力且不是完整落地总冲量。小腿驱动力矩不代表结构冲击应力。
+导出为PPO/OnPolicyRunner静态actor，JIT及ONNX输入590、输出10。590维按观测项分别展开10帧历史后拼接；各项内部由旧到新，并非直接拼接10个完整59维帧。调用方维护历史及reset初始化，模型内部无历史状态。ONNX固定batch=1、opset17、经simplifier校验。8步一致性校验含初始、第3步reset前、第4步reset后、第7步末步；Native GPU/CPU、JIT、ONNX动作误差均小于1e-5。
+参考CSV为原始60Hz、204帧、17列，base xyz + quaternion xyzw +说明所列10关节位置，字节直接复制；训练使用其转换得到的50Hz、170帧NPZ，NPZ仅记录来源与哈希。
+训练源码以当时W&B元数据和干净Git快照绑定ba742c5；当前导出checkout为0eb1b88且含批准未提交修改，不能混作原训练commit。原训练奖励时间为1.6s；本次导出运行显式覆盖回1.6s，保留源码中批准的1.65s适配及其他刚体质量随机化排除base_link的配置。
+只有一个seed及每场5个相关重复周期，未证明收敛或通用鲁棒性。仅可进入受监督实物测试；未经实物验证，不代表 hardware-ready。
+
+仅可进入受监督实物测试；未经实物验证，不代表 hardware-ready。
