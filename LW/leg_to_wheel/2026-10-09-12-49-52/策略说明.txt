@@ -501,3 +501,13 @@ CSV保留原始采样率、帧数、列顺序和字节；NPZ仅记录来源路�
 8样本Native设备/CPU/JIT/ONNX parity含initial/pre_reset/post_reset/final，门限1e-5，构成有限接口与重置一致性证据。单seed仿真和有限导出校验不证明收敛或策略全面最优。
 
 仅可进入受监督实物测试；未经实物验证，不代表 hardware-ready。
+
+【实物部署验证补充｜2026-10-20｜汇总全部历史记录】
+当前结论：本归档策略已有成功实物部署、模型加载和完整Leg-to-Wheel转换执行记录，保存日志未见程序崩溃；对本模型单独确认“无外力干扰、无自主失稳的完整转换及持续Wheel接管”仍有版本证据缺口。
+对应模型 ONNX SHA-256：9a809a0f122e56da6d1cc84503bffcd0c1d3ebc67be99d6d7fff90bfedc9e4f7。
+已绑定依据：2026-10-10 20:30:35场次启动终端明确打印a5736756b397c7343c63b32f8e36749b93bb39f3包校验通过和本LegToWheel模型成功加载；资源快照、动作CSV与本目录哈希一致。状态顺序为Leg→LegToWheel→Wheel→GetDown→Passive，转换约3.40秒、170组采样目标，Wheel约0.160秒。launch记录用户Ctrl+C后控制与IMU节点干净退出。没有另外抓取运行中进程文件哈希，启动验证日志和资源快照是本场模型关联依据。
+外力记录：本场落地前冲后GetDown；用户在2026-10-12明确确认异常由中途吊绳拉拽导致，不能再写成“原因未定”或直接记为本策略自主崩溃。精确拉拽受力时刻仍未同步记录，该场也不能作为无外力条件下运动稳定性验收。
+后续流程成功：2026-10-12 15:19:31与15:24:41两轮均确认无吊绳干扰、无非预期前冲，完成约3.4秒转换并分别维持约4.92秒、8.07秒Wheel控制，之后主动GetDown及人工放地，节点干净退出。但这两轮未保存完整模型加载stdout或测试进程身份，用户于2026-10-20仍不能确认实测模型版本；当前参考包哈希匹配本模型，不足以将两轮无绳成功直接认定为本归档模型的新增实测成绩。
+PD语义：q_target可作为产生所需力矩的虚拟位置目标；单凭q_target与实际关节角或CSV参考不同，不能判为策略故障。运动结果、参考跟踪、实际力矩/限幅及外力条件应分别评价。
+证据：sim2real_test@3f7116ac9fdd2c7a627fbf40a35e0f4f7d3df563，experiments/leg/20261010-203035-leg-to-wheel-jump-forward-surge/README.md、context/README.md、analysis/terminal.log、analysis/logs/launch.log；docs/reports/20261012-leg-to-wheel-no-rope/README.md、deployment-reference.json；两轮20261012实验目录。
+全15场归属及失败记录见 ../../实物部署核验汇总.txt。上文“未经实物验证”等是导出归档时的历史说明；本补充更新部署执行状态，并保留运动稳定性验证的具体范围。原归档清单保持原样。
