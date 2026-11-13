@@ -1,3 +1,32 @@
+实机部署结果更新（2026-11-13；实测日期 2026-11-12）
+
+2026-11-12 实机部署成功记录：1112-01 部署资源中的轮切足 ONNX 和参考 CSV 与本归档逐字节一致；三份选定记录包含 3 次 W2L 成功和 2 次 L2W 成功，另有 1 次电机电源线脱落条件下的 W2L 倾倒。现场确认吊绳松弛、无人扶持。结果支持本策略在所记录条件下成功部署，不用于估计成功率或认定已完成可靠性验证。
+
+保留策略：2026-11-11_19-54-20/model_49999.pt（server）；不是 youngHit 的 19-51-59 策略。
+ONNX SHA-256: b51a9fb89569c5beeb6dce3d393cd00e7e707116795cd0a9cc145571f43b6583
+参考 CSV SHA-256: 791632a4bbd9d19da77fed85b0d291e65a992f941cf7a8484f15e2bb9519df1c
+部署版本：1112-01；部署源码提交 4f1eba4a335683991116fda93551a63c5615bd18。
+
+三场记录：
+- 15:45:46：全程零指令，轮切足约 3.40 秒完成，双足运行约 11.18 秒；接管 2 秒后约 9.16 秒较安静站立。
+- 16:07:13：首次轮切足及足切轮成功；第二次轮切足倾倒，现场随后确认电机电源线脱落。右小腿反馈冻结先于明显侧倾；旧反馈传播和保护机制尚未定位，不直接归为策略自身失败。
+- 16:27:12：轮切足和足切轮均成功，双足约 1.04 秒，返回双轮后约 5.14 秒；未重现 11 月 11 日起步阶段持续放大的双髋振荡。
+
+相同起始 1.1 秒窗口，相对 11 月 11 日失败记录，16:27 场双髋速度 RMS 由右/左 3.436/3.428 降为 0.383/0.203 rad/s，目标角峰峰值由 66.35/63.68 降为 11.87/10.99 度。双轮与轮切足模型同时替换，不能把改善单独归因于轮切足模型。
+
+已有所记录条件下的实机部署成功证据；尚未完成长时间、重复切换及抗扰可靠性验证，不代表通用 hardware-ready。测试进程加载路径/模型哈希未独立捕获；模型身份依据部署资源哈希、版本记录和现场确认。后续测试继续受监督。
+这些选定记录不是当天全量或严格重复试验；缺少同步视频、独立接触力与外部位姿/速度。足切轮成功属于整套部署链路证据，不是此轮切足网络单独完成的动作。
+
+证据仓库固定提交：5209ffb2792db5846bc8512858ff449840fc6c21
+总览：https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/docs/reports/20261112-1112-01-transitions/README.md
+场次报告：https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/experiments/wheel/20261112-154546-wheel-to-leg-success-zero-command/analysis/assessment-updated.md
+场次报告：https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/experiments/wheel/20261112-160713-roundtrip-success-power-disconnection/analysis/assessment-updated.md
+场次报告：https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/experiments/wheel/20261112-162712-bidirectional-transition-success/analysis/assessment-updated.md
+
+以上更新优先于下方归档时的“未经实物验证”状态；历史仿真、离线敏感度结论及原始说明按当时事实保留。
+
+===== 原始归档说明（2026-11-12，实机结果补录前）=====
+
 策略说明
 
 归档目录: 2026-11-11-19-54-20

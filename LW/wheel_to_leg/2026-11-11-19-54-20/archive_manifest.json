@@ -13,7 +13,7 @@
     }
   },
   "collection": "LW/wheel_to_leg",
-  "description_notes": "归档本机server策略2026-11-11_19-54-20/model_49999.pt；checkpoint SHA-256=078d1aac4c78970d392517395761a2ddf195265f5d29086fff7bd4f7b48d2906，PPO/OnPolicyRunner，4096环境、seed42、50000迭代。不是youngHit的19-51-59策略。\n原始训练HEAD bca8144，训练时含flat_env_cfg.py本地修改；本次评估/导出源码上下文HEAD ff2ade8，相关源码内容与保存训练版本等价，差异及原始训练Git记录单独保留。archive source.commit为校验绑定的评估/导出上下文，不把它伪称原始训练提交。\n数据增强和镜像损失开启，mirror_loss_coeff=0.1；leg_symmetry=0、feet_distance_penalize=0，joint_symmetry=-0.5仍开启。hip_pos_zero_l2=-1、wheel_contact_continuous=0.5；独立高度奖励0，全局XYZ位置weight0.5/std0.30。落地后轮速度-0.5/轮加速度-0.1，参考相位1.65s开始，ramp0.10/0.20s；非接触事件门控。\n部署输入float32 obs[1,590]、输出actions[1,10]。观测term-major：command200、motion_anchor_ori_b60、base_ang_vel30、joint_pos100、joint_vel100、actions100，各项内部10帧从旧到新；不能将10个完整59维帧直接串接。actor归一化关闭；网络无内部状态，消费端负责历史重置、首观测填满、上一动作归零。joint_pos按default offset相减并屏蔽两轮位置。控制20ms、物理5ms。\n动作顺序右髋、左髋、右大腿、左大腿、右小腿、左小腿、右足、左足、右轮、左轮；前8维位置偏移scale0.25、后2维轮速度scale1。原始action无裁剪，缩放/default offset后的目标裁剪[-100,100]；不能把训练的历史布局或目标裁剪解释成另一套部署规则。标称PD腿90/3、足28/1.4、轮0/0.5；实际部署需核对同一契约。\n复用标称/随机化各1环境、1000控制步、seed42的Native评估；两场各5完整动作成功、0失败、1截断尾段。完整记录每场1000控制样本和4000个5ms物理样本。单seed和重复标称轨迹不能支持普遍成功率。\n相对本机11月10日策略，标称anchor位置RMSE6.408→2.958cm，随机18.638→17.142cm。落地后[2.0,3.4]s轮速RMS标称1.361→0.158rad/s，随机1.253→0.202rad/s。标称跟踪和落地后轮速改善不等于整体更好；全程轮速RMS反而增大。\n已知退步：随机起跳前轮心XY平均距离49.601→47.050cm，最窄40.638cm；原[49.6,53.6]cm区间外样本98.49%。完整周期随机右/左髋最大偏角11.239/11.061度。随机落地高度RMSE2.829→4.062cm，落地俯仰峰值10.571→13.372度。不能仅凭5/5周期成功判定可替代旧版。\n物理步关节峰值包含截断尾段：随机右足10.246rad/s，仅1个5ms样本略高于10rad/s配置参考值；左小腿112.620Nm/120Nm=93.85%。所有关节无>=99%力矩上限样本。完整10关节标称/随机速度、力矩峰值已列于parameters.observed_joint_loads_all_physics_samples。仿真载荷不等于实物保证。\n同一实机状态历史下的离线敏感度：相对确认实际部署的youngHit11月10日模型，本次最新帧双髋位置/速度/上一目标角敏感度分别下降43.4%/50.3%/23.2%，10Hz速度响应下降54.1%；7–13Hz预测目标功率右/左下降57.2%/57.5%。但相比youngHit11月11日对照，右/左目标功率高46.5%/69.8%。该分析固定记录状态和上一目标，不是新策略实机闭环；旧模型重构RMSE约5.09/4.59度，不能认为实机抖动已解决。\n本次正式导出一致性校验1环境8步、step4重置，含initial/pre_reset/post_reset/final：JIT误差0、ONNX1.90735e-6、设备到CPU3.81470e-6，均低于1e-5。正式导出模型与敏感度分析原模型在45组输入上输出完全一致，全部actor权重与checkpoint一致。\n原始60Hz CSV204帧17列（baseXYZ、quatXYZW、声明关节顺序）按原文件名及字节归档。训练NPZ50Hz170帧仅记录路径及哈希，不拷贝NPZ、不重建或重采样CSV。\n仅可进入受监督实物测试；未经实物验证，不代表 hardware-ready。",
+  "description_notes": "2026-11-12 实机部署成功记录：1112-01 部署资源中的轮切足 ONNX 和参考 CSV 与本归档逐字节一致；三份选定记录包含 3 次 W2L 成功和 2 次 L2W 成功，另有 1 次电机电源线脱落条件下的 W2L 倾倒。现场确认吊绳松弛、无人扶持。结果支持本策略在所记录条件下成功部署，不用于估计成功率或认定已完成可靠性验证。\n已有所记录条件下的实机部署成功证据；尚未完成长时间、重复切换及抗扰可靠性验证，不代表通用 hardware-ready。测试进程加载路径/模型哈希未独立捕获；模型身份依据部署资源哈希、版本记录和现场确认。后续测试继续受监督。\n\n以下为实机结果补录前的历史归档说明：\n归档本机server策略2026-11-11_19-54-20/model_49999.pt；checkpoint SHA-256=078d1aac4c78970d392517395761a2ddf195265f5d29086fff7bd4f7b48d2906，PPO/OnPolicyRunner，4096环境、seed42、50000迭代。不是youngHit的19-51-59策略。\n原始训练HEAD bca8144，训练时含flat_env_cfg.py本地修改；本次评估/导出源码上下文HEAD ff2ade8，相关源码内容与保存训练版本等价，差异及原始训练Git记录单独保留。archive source.commit为校验绑定的评估/导出上下文，不把它伪称原始训练提交。\n数据增强和镜像损失开启，mirror_loss_coeff=0.1；leg_symmetry=0、feet_distance_penalize=0，joint_symmetry=-0.5仍开启。hip_pos_zero_l2=-1、wheel_contact_continuous=0.5；独立高度奖励0，全局XYZ位置weight0.5/std0.30。落地后轮速度-0.5/轮加速度-0.1，参考相位1.65s开始，ramp0.10/0.20s；非接触事件门控。\n部署输入float32 obs[1,590]、输出actions[1,10]。观测term-major：command200、motion_anchor_ori_b60、base_ang_vel30、joint_pos100、joint_vel100、actions100，各项内部10帧从旧到新；不能将10个完整59维帧直接串接。actor归一化关闭；网络无内部状态，消费端负责历史重置、首观测填满、上一动作归零。joint_pos按default offset相减并屏蔽两轮位置。控制20ms、物理5ms。\n动作顺序右髋、左髋、右大腿、左大腿、右小腿、左小腿、右足、左足、右轮、左轮；前8维位置偏移scale0.25、后2维轮速度scale1。原始action无裁剪，缩放/default offset后的目标裁剪[-100,100]；不能把训练的历史布局或目标裁剪解释成另一套部署规则。标称PD腿90/3、足28/1.4、轮0/0.5；实际部署需核对同一契约。\n复用标称/随机化各1环境、1000控制步、seed42的Native评估；两场各5完整动作成功、0失败、1截断尾段。完整记录每场1000控制样本和4000个5ms物理样本。单seed和重复标称轨迹不能支持普遍成功率。\n相对本机11月10日策略，标称anchor位置RMSE6.408→2.958cm，随机18.638→17.142cm。落地后[2.0,3.4]s轮速RMS标称1.361→0.158rad/s，随机1.253→0.202rad/s。标称跟踪和落地后轮速改善不等于整体更好；全程轮速RMS反而增大。\n已知退步：随机起跳前轮心XY平均距离49.601→47.050cm，最窄40.638cm；原[49.6,53.6]cm区间外样本98.49%。完整周期随机右/左髋最大偏角11.239/11.061度。随机落地高度RMSE2.829→4.062cm，落地俯仰峰值10.571→13.372度。不能仅凭5/5周期成功判定可替代旧版。\n物理步关节峰值包含截断尾段：随机右足10.246rad/s，仅1个5ms样本略高于10rad/s配置参考值；左小腿112.620Nm/120Nm=93.85%。所有关节无>=99%力矩上限样本。完整10关节标称/随机速度、力矩峰值已列于parameters.observed_joint_loads_all_physics_samples。仿真载荷不等于实物保证。\n同一实机状态历史下的离线敏感度：相对确认实际部署的youngHit11月10日模型，本次最新帧双髋位置/速度/上一目标角敏感度分别下降43.4%/50.3%/23.2%，10Hz速度响应下降54.1%；7–13Hz预测目标功率右/左下降57.2%/57.5%。但相比youngHit11月11日对照，右/左目标功率高46.5%/69.8%。该分析固定记录状态和上一目标，不是新策略实机闭环；旧模型重构RMSE约5.09/4.59度，不能认为实机抖动已解决。\n本次正式导出一致性校验1环境8步、step4重置，含initial/pre_reset/post_reset/final：JIT误差0、ONNX1.90735e-6、设备到CPU3.81470e-6，均低于1e-5。正式导出模型与敏感度分析原模型在45组输入上输出完全一致，全部actor权重与checkpoint一致。\n原始60Hz CSV204帧17列（baseXYZ、quatXYZW、声明关节顺序）按原文件名及字节归档。训练NPZ50Hz170帧仅记录路径及哈希，不拷贝NPZ、不重建或重采样CSV。\n仅可进入受监督实物测试；未经实物验证，不代表 hardware-ready。",
   "evaluation": {
     "results": [
       {
@@ -30,7 +30,7 @@
     "path": "/home/server/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-wheel-v0/2026-11-11_19-54-20/evidence/export/storage-20261112-001/receipt.json",
     "sha256": "d8cbb00324910dcba528ee0f50c8c0d38f8294a255b4116d16c88a04fd379f04"
   },
-  "hardware_boundary": "仅可进入受监督实物测试；未经实物验证，不代表 hardware-ready。",
+  "hardware_boundary": "已有所记录条件下的实机部署成功证据；尚未完成长时间、重复切换及抗扰可靠性验证，不代表通用 hardware-ready。测试进程加载路径/模型哈希未独立捕获；模型身份依据部署资源哈希、版本记录和现场确认。后续测试继续受监督。",
   "hardware_ready": false,
   "parameters": {
     "action_interface": {
@@ -1056,5 +1056,112 @@
     "status": "completed",
     "version": 4
   },
-  "version": 2
+  "version": 2,
+  "hardware_validation": {
+    "updated_date": "2026-11-13",
+    "test_date": "2026-11-12",
+    "status": "deployment_success_observed",
+    "summary": "2026-11-12 实机部署成功记录：1112-01 部署资源中的轮切足 ONNX 和参考 CSV 与本归档逐字节一致；三份选定记录包含 3 次 W2L 成功和 2 次 L2W 成功，另有 1 次电机电源线脱落条件下的 W2L 倾倒。现场确认吊绳松弛、无人扶持。结果支持本策略在所记录条件下成功部署，不用于估计成功率或认定已完成可靠性验证。",
+    "evidence_repository": "https://github.com/bhwxzx/sim2real_test.git",
+    "evidence_commit": "5209ffb2792db5846bc8512858ff449840fc6c21",
+    "overview": {
+      "path": "docs/reports/20261112-1112-01-transitions/README.md",
+      "sha256": "0d92ca2ca356e63a92fecc1306f0f8191d4b890c6180858a8f01007cbd603f35",
+      "url": "https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/docs/reports/20261112-1112-01-transitions/README.md"
+    },
+    "evidence_manifest": {
+      "path": "docs/reports/20261112-1112-01-transitions/manifest.json",
+      "sha256": "c1840b08c4db5aa4e858b66f23f90a3d89bacbcc7a3c79f7cd4428de2eed3877",
+      "url": "https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/docs/reports/20261112-1112-01-transitions/manifest.json"
+    },
+    "source_checksum_verification": "All entries of sim2real_test/SHA256SUMS verified locally before this update.",
+    "deployment_version": "1112-01",
+    "deployment_source_commit": "4f1eba4a335683991116fda93551a63c5615bd18",
+    "onnx_sha256": "b51a9fb89569c5beeb6dce3d393cd00e7e707116795cd0a9cc145571f43b6583",
+    "reference_csv_sha256": "791632a4bbd9d19da77fed85b0d291e65a992f941cf7a8484f15e2bb9519df1c",
+    "archive_resource_bytes_match": true,
+    "test_process_model_hash_independently_captured": false,
+    "operator_confirmed_rope_slack": true,
+    "operator_confirmed_no_human_support": true,
+    "selected_record_counts": {
+      "w2l_successes": 3,
+      "l2w_successes": 2,
+      "w2l_topple_under_reported_motor_power_cable_disconnection": 1,
+      "success_rate_estimated": false
+    },
+    "experiments": [
+      {
+        "experiment_id": "20261112-154546-wheel-to-leg-success-zero-command",
+        "report": {
+          "path": "experiments/wheel/20261112-154546-wheel-to-leg-success-zero-command/analysis/assessment-updated.md",
+          "sha256": "16fb0a2cef9d0b24994802f2f73bbb993e1cbf5c4dfdf92ea2c8da2d530147b5",
+          "url": "https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/experiments/wheel/20261112-154546-wheel-to-leg-success-zero-command/analysis/assessment-updated.md"
+        },
+        "operator_confirmation": {
+          "path": "experiments/wheel/20261112-154546-wheel-to-leg-success-zero-command/analysis/operator-confirmation.json",
+          "sha256": "8d3abf2bc7eb36f41c5df4f312570ff32abef3ed81b4d0a6a0c01a1a27f62231",
+          "url": "https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/experiments/wheel/20261112-154546-wheel-to-leg-success-zero-command/analysis/operator-confirmation.json"
+        },
+        "manifest": {
+          "path": "experiments/wheel/20261112-154546-wheel-to-leg-success-zero-command/manifest.json",
+          "sha256": "d3f5fbf7731ae8f21c2e1a85f6a64dddb53ee2415cbd301f792f4914a060cac9",
+          "url": "https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/experiments/wheel/20261112-154546-wheel-to-leg-success-zero-command/manifest.json"
+        },
+        "raw_bag": {
+          "path": "experiments/wheel/20261112-154546-wheel-to-leg-success-zero-command/raw/lw_real_20261112-154546/lw_real_20261112-154546_0.db3",
+          "sha256": "b11afc104fbf7513bf518b440820fea5d91a88563d55d9e58198d22c4a2d9c8a",
+          "url": "https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/experiments/wheel/20261112-154546-wheel-to-leg-success-zero-command/raw/lw_real_20261112-154546/lw_real_20261112-154546_0.db3"
+        }
+      },
+      {
+        "experiment_id": "20261112-160713-roundtrip-success-power-disconnection",
+        "report": {
+          "path": "experiments/wheel/20261112-160713-roundtrip-success-power-disconnection/analysis/assessment-updated.md",
+          "sha256": "24cd9482f0f8b9bc73e49bb8f2a26dd00fe3738e86e9b49df95e700845085fe0",
+          "url": "https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/experiments/wheel/20261112-160713-roundtrip-success-power-disconnection/analysis/assessment-updated.md"
+        },
+        "operator_confirmation": {
+          "path": "experiments/wheel/20261112-160713-roundtrip-success-power-disconnection/analysis/operator-confirmation.json",
+          "sha256": "6e2f7d26f947e6880d3e58d09f8408e29961529407e9feeed510b25ab12f853b",
+          "url": "https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/experiments/wheel/20261112-160713-roundtrip-success-power-disconnection/analysis/operator-confirmation.json"
+        },
+        "manifest": {
+          "path": "experiments/wheel/20261112-160713-roundtrip-success-power-disconnection/manifest.json",
+          "sha256": "a7c9176d6af8948d47cd37647c8b9f58b27f1a890a43ce8bfcdf2eef37d78127",
+          "url": "https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/experiments/wheel/20261112-160713-roundtrip-success-power-disconnection/manifest.json"
+        },
+        "raw_bag": {
+          "path": "experiments/wheel/20261112-160713-roundtrip-success-power-disconnection/raw/lw_real_20261112-160713/lw_real_20261112-160713_0.db3",
+          "sha256": "d2649f0516797aece62353deb3b3f87b4eb3747a808ff3cff88411866f3d199a",
+          "url": "https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/experiments/wheel/20261112-160713-roundtrip-success-power-disconnection/raw/lw_real_20261112-160713/lw_real_20261112-160713_0.db3"
+        }
+      },
+      {
+        "experiment_id": "20261112-162712-bidirectional-transition-success",
+        "report": {
+          "path": "experiments/wheel/20261112-162712-bidirectional-transition-success/analysis/assessment-updated.md",
+          "sha256": "9a580838c6131e97bd6cddb846e4e40e7a8cdc7691ce4c7752be204cba1d4fd6",
+          "url": "https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/experiments/wheel/20261112-162712-bidirectional-transition-success/analysis/assessment-updated.md"
+        },
+        "operator_confirmation": {
+          "path": "experiments/wheel/20261112-162712-bidirectional-transition-success/analysis/operator-confirmation.json",
+          "sha256": "79e3ca92808d33b1319e8c1b85bfcaa8800c269ce29505f9d5718fc5299448cb",
+          "url": "https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/experiments/wheel/20261112-162712-bidirectional-transition-success/analysis/operator-confirmation.json"
+        },
+        "manifest": {
+          "path": "experiments/wheel/20261112-162712-bidirectional-transition-success/manifest.json",
+          "sha256": "017f6324561b39ccbd138a79757acc3345261147a89e949ae51554c4d45202bc",
+          "url": "https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/experiments/wheel/20261112-162712-bidirectional-transition-success/manifest.json"
+        },
+        "raw_bag": {
+          "path": "experiments/wheel/20261112-162712-bidirectional-transition-success/raw/lw_real_20261112-162712/lw_real_20261112-162712_0.db3",
+          "sha256": "1855cc8c3fece9a6bdcaa343153f28406afbcd9219351995e33a6c371bd6e163",
+          "url": "https://github.com/bhwxzx/sim2real_test/blob/5209ffb2792db5846bc8512858ff449840fc6c21/experiments/wheel/20261112-162712-bidirectional-transition-success/raw/lw_real_20261112-162712/lw_real_20261112-162712_0.db3"
+        }
+      }
+    ],
+    "boundary": "已有所记录条件下的实机部署成功证据；尚未完成长时间、重复切换及抗扰可靠性验证，不代表通用 hardware-ready。测试进程加载路径/模型哈希未独立捕获；模型身份依据部署资源哈希、版本记录和现场确认。后续测试继续受监督。",
+    "previous_archive_commit": "f5863e7723daa7d362010b61ffaf88f148e6d6e4"
+  },
+  "hardware_boundary_at_archive": "仅可进入受监督实物测试；未经实物验证，不代表 hardware-ready。"
 }
