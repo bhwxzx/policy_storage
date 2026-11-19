@@ -1,0 +1,192 @@
+策略说明
+
+归档目录: 2026-11-18-20-11-20
+任务: RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0
+算法: PPO
+Runner: OnPolicyRunner
+训练 checkpoint: /home/young/liufengrong/robot_lab/logs/rsl_rl/LW_leg_beyongdmimic/2026-11-18_20-11-20/model_49999.pt
+训练轮次: 49999
+Checkpoint SHA-256: a8701a796f5f28593ae457e9116ad4ce208a43eb249e25ae6a96346a748b91c3
+训练源码 commit: 464cc05c2464a8a8f206257b1fb86a9e2e9420d8
+训练源码 dirty: true
+JIT SHA-256: 1103e2022d9b1d777e3193d517780fcf5405fd932229aacddfe67f073e21b297
+ONNX SHA-256: 0fbb6acf66a9e32955c48ad10b602a849725dbc63b853fc97b49e949371ac176
+
+原始参考CSV（直接复制）:
+{
+  "archive_filename": "leg_to_wheel_transform_60hz.csv",
+  "columns": 17,
+  "fps": 60,
+  "frames": 204,
+  "generated_npz": {
+    "path": "/home/young/liufengrong/robot_lab/source/robot_lab/robot_lab/datasets/LW/motion_beyondmimic/se3_trajopt/leg_to_wheel/2026-10-08/leg_to_wheel_transform_50hz.npz",
+    "sha256": "8f5dec53148b5229b28055b8af968d18dc757e873f1a04bd423b0e8bfc6b2a6b"
+  },
+  "joint_names": [
+    "right_hip_joint",
+    "left_hip_joint",
+    "right_thigh_joint",
+    "left_thigh_joint",
+    "right_shank_joint",
+    "left_shank_joint",
+    "right_foot_joint",
+    "left_foot_joint",
+    "right_wheel_joint",
+    "left_wheel_joint"
+  ],
+  "path": "/home/young/liufengrong/robot_lab/source/robot_lab/robot_lab/datasets/LW/motion_beyondmimic/se3_trajopt/leg_to_wheel/2026-10-08/leg_to_wheel_transform_60hz.csv",
+  "quaternion_order": "xyzw",
+  "sha256": "ef3ced90bda48a949c21e20cdc4e35cd105198746773471c424af171c1d7f4ad"
+}
+CSV保留原始采样率、帧数、列顺序和字节；NPZ仅记录来源路径与哈希，不归档文件。
+
+训练参数:
+{
+  "contact_history_length": 4,
+  "control_dt_seconds": 0.02,
+  "effective_config": {
+    "path": "/home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0/2026-11-18_20-11-20/provenance/config-e9c231e606c10c8e026c61127e578c2bab45fae6cbcb88c0f44ae9ed71c4c7e7.json",
+    "sha256": "e9c231e606c10c8e026c61127e578c2bab45fae6cbcb88c0f44ae9ed71c4c7e7"
+  },
+  "joint_symmetry_weight": -0.5,
+  "motion_conversion_record": {
+    "path": "/home/young/liufengrong/robot_lab/source/robot_lab/robot_lab/datasets/LW/motion_beyondmimic/se3_trajopt/leg_to_wheel/2026-10-08/conversion_manifest.json",
+    "sha256": "48e9375f77078695c7c1187ab78d830767f4af94bccd99efd99d7f4fab865684"
+  },
+  "motion_fps": 50.0,
+  "motion_frames": 170,
+  "motion_reference": {
+    "path": "/home/young/liufengrong/robot_lab/source/robot_lab/robot_lab/datasets/LW/motion_beyondmimic/se3_trajopt/leg_to_wheel/2026-10-08/leg_to_wheel_transform_50hz.npz",
+    "sha256": "8f5dec53148b5229b28055b8af968d18dc757e873f1a04bd423b0e8bfc6b2a6b"
+  },
+  "num_training_envs": 4096,
+  "physics_dt_seconds": 0.005,
+  "policy_interface": {
+    "actor_normalization": false,
+    "flatten_order": "per-term history, oldest to newest",
+    "history_length": 10,
+    "input": "float32 obs[1,590]",
+    "joint_order": [
+      "right_hip_joint",
+      "left_hip_joint",
+      "right_thigh_joint",
+      "left_thigh_joint",
+      "right_shank_joint",
+      "left_shank_joint",
+      "right_foot_joint",
+      "left_foot_joint",
+      "right_wheel_joint",
+      "left_wheel_joint"
+    ],
+    "nominal_joint_positions_rad": {
+      "left_foot_joint": 0.4712,
+      "left_hip_joint": 0.0,
+      "left_shank_joint": 2.234,
+      "left_thigh_joint": 0.4363,
+      "left_wheel_joint": 0.0,
+      "right_foot_joint": -0.4712,
+      "right_hip_joint": 0.0,
+      "right_shank_joint": -2.234,
+      "right_thigh_joint": -0.4363,
+      "right_wheel_joint": 0.0
+    },
+    "output": "float32 actions[1,10]",
+    "position_action_scale": 0.25,
+    "terms": [
+      "command",
+      "motion_anchor_ori_b",
+      "base_ang_vel",
+      "joint_pos",
+      "joint_vel",
+      "actions"
+    ],
+    "velocity_action_scale": 1.0,
+    "width_per_frame": [
+      20,
+      6,
+      3,
+      10,
+      10,
+      10
+    ]
+  },
+  "saved_agent_yaml": {
+    "path": "/home/young/liufengrong/robot_lab/logs/rsl_rl/LW_leg_beyongdmimic/2026-11-18_20-11-20/params/agent.yaml",
+    "sha256": "82632b4987896907b49437db5939c8dde88731da910340ab9974d374566bcfa9"
+  },
+  "saved_env_yaml": {
+    "path": "/home/young/liufengrong/robot_lab/logs/rsl_rl/LW_leg_beyongdmimic/2026-11-18_20-11-20/params/env.yaml",
+    "sha256": "01cff03d286385c6dc82ed183f30d5b630348bd2902ae5450cb82f4c77957c99"
+  },
+  "saved_training_diff": {
+    "path": "/home/young/liufengrong/robot_lab/logs/rsl_rl/LW_leg_beyongdmimic/2026-11-18_20-11-20/git/robot_lab.diff",
+    "sha256": "76e88581faeb55abedb0eb709924a9feafed67da5cc94601c2ae4563881d55fb"
+  },
+  "seed": 42,
+  "symmetry_cfg": {
+    "data_augmentation_func": "robot_lab.tasks.manager_based.beyondmimic.mdp.symmetry:compute_symmetric_states",
+    "mirror_loss_coeff": 0.1,
+    "use_data_augmentation": true,
+    "use_mirror_loss": true
+  },
+  "termination": {
+    "func": "robot_lab.tasks.manager_based.beyondmimic.mdp.terminations:thigh_shank_ground_contact",
+    "params": {
+      "sensor_cfg": {
+        "body_ids": [
+          null,
+          null,
+          null
+        ],
+        "body_names": [
+          "right_thigh_link",
+          "left_thigh_link",
+          "right_shank_link",
+          "left_shank_link"
+        ],
+        "fixed_tendon_ids": [
+          null,
+          null,
+          null
+        ],
+        "fixed_tendon_names": null,
+        "joint_ids": [
+          null,
+          null,
+          null
+        ],
+        "joint_names": null,
+        "name": "contact_forces",
+        "object_collection_ids": [
+          null,
+          null,
+          null
+        ],
+        "object_collection_names": null,
+        "preserve_order": false
+      },
+      "threshold": 1.0
+    },
+    "time_out": false
+  },
+  "training_argv": [
+    "python",
+    "scripts/reinforcement_learning/rsl_rl/train.py",
+    "--task=RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0",
+    "--log_project_name=LW_leg_beyondmimic",
+    "--logger=wandb",
+    "--num_envs=4096",
+    "--headless"
+  ],
+  "training_start_local": "2026-11-18_20-11-20"
+}
+
+评估证据:
+- /home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0/2026-11-18_20-11-20/evaluations/collision-leg-to-wheel-20261119-001/raw/nominal-start-20261119-a01/result.json
+- /home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0/2026-11-18_20-11-20/evaluations/collision-leg-to-wheel-20261119-001/raw/randomized-start-20261119-a01/result.json
+- /home/young/liufengrong/robot_lab/learnings/policy_tuning/RobotLab-Isaac-BeyondMimic-Flat-LW-leg-v0/2026-11-18_20-11-20/evaluations/collision-leg-to-wheel-20261119-001/raw/randomized-phase-20261119-a01/result.json
+
+人工说明:
+腿转轮。控制周期20 ms，每个观测项内部按最旧到最新展开10帧，重置时用当前观测填满历史。前8维位置目标相对默认姿态，后2维为右轮、左轮速度目标。训练时大腿或小腿触地力超过1 N触发回合终止。seed 42单环境三场Native评估，各2000步，两场从第0帧执行各11/11次完成，随机相位23/23个片段完成，均无碰撞终止。无随机化时关节速度峰值9.90 rad/s，施加力矩峰值102.38 N·m。随机化时可出现力矩饱和，随机相位下双轮竖直接触力峰值4.22 kN。标称落地阶段镜像位置目标差RMS为2.90°。
+
+仅可进入受监督实物测试；未经实物验证，不代表 hardware-ready。
